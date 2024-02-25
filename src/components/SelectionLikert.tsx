@@ -11,6 +11,7 @@ const SelectionLikert = ({ isRatingLikert }: { isRatingLikert: Boolean }) => {
     if (temp.length % 3 === 0) return 3;
     else return 2;
   };
+  
   return (
     <div className={`container flex ${isRatingLikert ? "" : "gap-2"}  mt-3`}>
       {temp.map((el, i) => {
