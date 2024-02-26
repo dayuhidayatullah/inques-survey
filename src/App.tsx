@@ -17,91 +17,91 @@ import StepWizard from "react-step-wizard";
 function App() {
   const tempData = [
     {
-      type: 'likert',
-      question: 'Apakah Anda Ingin ?'
+      type: "likert",
+      question: "Apakah Anda Ingin ?",
+      description: "Yang Bener Aja ",
     },
     {
-      type: 'selectionImage',
-      question: 'Apakah Anda Ingin ?'
+      type: "selectionImage",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'selectionImageText',
-      question: 'Apakah Anda Ingin ?'
+      type: "selectionImageText",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'input',
-      question: 'Apakah Anda Ingin ?'
+      type: "input",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'dropdown',
-      question: 'Apakah Anda Ingin ?'
+      type: "dropdown",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'likertRating',
-      question: 'Apakah Anda Ingin ?'
+      type: "likertRating",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'selectionText',
-      question: 'Apakah Anda Ingin ?'
+      type: "selectionText",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'ratingStar',
-      question: 'Apakah Anda Ingin ?'
+      type: "ratingStar",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'multiple',
-      question: 'Apakah Anda Ingin ?'
+      type: "multiple",
+      question: "Apakah Anda Ingin ?",
     },
     {
-      type: 'priority',
-      question: 'Apakah Anda Ingin ?'
-    }
-  ]
+      type: "priority",
+      question: "Apakah Anda Ingin ?",
+    },
+  ];
   const mappingQuestion = (type: string) => {
     switch (type) {
-      case 'priority':
-      return <SelectionPriority />
-      case 'multiple':
-        return <SelectionCheckbox />
-      case 'ratingStar' :
-        return <SelectionRating />
-      case 'selectionText':
-        return <SelectionText />
-      case 'likertRating':
-        return <SelectionLikert isRatingLikert={true} />
-      case 'dropdown':
-        return <SelectionDropdown />
-      case 'input': 
-        return <Input />
-      case 'selectionImageText': 
-      return <SelectionImage text={true} />
-      case 'selectionImage': 
-      return <SelectionImage text={false} />
-      case 'likert':
-        return <SelectionLikert isRatingLikert={false} />
+      case "priority":
+        return <SelectionPriority />;
+      case "multiple":
+        return <SelectionCheckbox />;
+      case "ratingStar":
+        return <SelectionRating />;
+      case "selectionText":
+        return <SelectionText />;
+      case "likertRating":
+        return <SelectionLikert isRatingLikert={true} />;
+      case "dropdown":
+        return <SelectionDropdown />;
+      case "input":
+        return <Input />;
+      case "selectionImageText":
+        return <SelectionImage text={true} />;
+      case "selectionImage":
+        return <SelectionImage text={false} />;
+      case "likert":
+        return <SelectionLikert isRatingLikert={false} />;
     }
-  }
-  const [tempStep, setTempStep] = useState<number>(3)
+  };
+  const [tempStep, setTempStep] = useState<number>(3);
   return (
     <>
       <div className="container m-auto">
         <Header />
-        <div className="container flex gap-[40px]">
-          <FaArrowLeft className="font-semibold text-[30px] mt-12"/>
-         <Stepper items={tempData}/>
-          {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
+        {/* <div className="container flex gap-[40px]"> */}
+        <Stepper items={tempData} />
+        {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
               <SelectionText  />
               <SelectionImage text={true} />
               <SelectionLikert isRatingLikert={true} />
           </StepWizard> */}
-          {/* {tempData.map(el => {
+        {/* {tempData.map(el => {
             return (
               <>
               <Stepper activeStep={0} question={el.question} items={tempData} description={'COBA'}  />
               </>
             )
           })} */}
-          {/* <div>
+        {/* <div>
             
             <div className="flex gap-[50px] flex-col mb-[50px]">
               <SelectionText />
@@ -114,7 +114,7 @@ function App() {
               <Input />
             </div>
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
     </>
   );

@@ -19,10 +19,15 @@ const SelectionImage = ({ text }: { text: Boolean }) => {
             key={el}
             className={`border-[2px] ${
               selectQuestion === el ? "border-indigo-500" : "border-gray-500"
-            }  p-2 cursor-pointer`}
+            }  p-2 cursor-pointer ${
+              el === selectQuestion ? "bg-gray-300" : ""
+            } rounded-lg`}
             onClick={() => setSelectQuestion(el)}
           >
-            <img src="https://imgv3.fotor.com/images/share/wonderland-girl-generated-by-Fotor-ai-art-generator.jpg"></img>
+            <img
+              className="rounded-lg"
+              src="https://imgv3.fotor.com/images/share/wonderland-girl-generated-by-Fotor-ai-art-generator.jpg"
+            ></img>
             {text && (
               <div className="flex justify-center mt-2 gap-2">
                 <p
@@ -32,7 +37,11 @@ const SelectionImage = ({ text }: { text: Boolean }) => {
                 >
                   {el}
                 </p>
-                <p className="font-normal text-[20px] text-center mt-2">
+                <p
+                  className={`font-normal text-[20px] text-center mt-2 ${
+                    el === selectQuestion ? " text-white" : ""
+                  }`}
+                >
                   {"Makanan"}
                 </p>
               </div>
