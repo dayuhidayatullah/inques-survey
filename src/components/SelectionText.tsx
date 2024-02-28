@@ -12,10 +12,10 @@ const SelectionText = () => {
         else return 2
     }
   return (
-    <div className={`container grid grid-rows-${devideQuestionGrid()} grid-flow-col gap-3`}>
+    <div className={`container inline-flex flex-wrap list-none  gap-3`}>
         {temp.map(el => {
             return (
-              <div key={el} className={`border-[2px] ${selectQuestion === el ?'border-indigo-500': 'border-gray-500'} flex items-center justify-between gap-2 rounded-xl p-2 cursor-pointer `} onClick={() => setSelectQuestion(el)} >
+              <div key={el} className={`border-[2px] min-[785px]:w-[calc(33.3333% - 5.33333px)] ${selectQuestion === el ?'border-indigo-500': 'border-gray-500'} flex items-center justify-between gap-2 rounded-xl p-2 cursor-pointer `} onClick={() => setSelectQuestion(el)} >
                 <div className='flex gap-2 items-center'>
                 <p className={`${el === selectQuestion ? 'bg-indigo-500 text-white' : ''} px-2 rounded-md border-[2px] border-gray-500 font-semibold text-[25px]`}>{el}</p>
                 <p className='font-normal text-[20px]'>

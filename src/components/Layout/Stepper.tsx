@@ -10,6 +10,7 @@ import SelectionCheckbox from "../SelectionCheckbox";
 import SelectionPriority from "../SelectionPriority";
 import StepWizard from "react-step-wizard";
 import { RiCheckLine } from "react-icons/ri";
+import 'animate.css'
 import { FaArrowLeft } from "react-icons/fa6";
 const Stepper = ({ items }: { items: any }) => {
   const [tempStep, setTempStep] = useState<number>(1);

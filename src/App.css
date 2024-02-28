@@ -72,8 +72,39 @@
   }
   input:invalid {
     animation: shake 0.2s ease-in-out 0s 2;
-    box-shadow: 0 0 0.6rem #ff0000;
+    border-bottom: 2px solid #ff0000;
   }
   input:focus {
-    border-bottom: 1px solid red;
+    border-bottom: transparent;
+  }
+  .rsw_2f{ display: none; } .rsw_3G{ display: block; }
+  .selected {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: var(--sampler-theme-border-radius);
+    background-color: rgba(83, 147, 102, 0.1);
+    box-shadow: rgba(83, 147, 102, 0.8) 0px 0px 0px 2px inset;
+    color: rgb(83, 147, 102);
+    max-width: 100%;
+    height: inherit;
+    min-height: 40px;
+    outline: 0px;
+    padding-block: 4px;
+    transition-duration: 0.1s;
+    transition-property: background-color, color, border-color, opacity, box-shadow;
+    transition-timing-function: ease-out;
+    width: 100%;
+    word-break: break-word;
+    animation: 0.25s ease 0s 2 normal none running jBPXGM;
+    cursor: pointer;
+    opacity: 1;
+    
+  }
+  .react-date-picker__wrapper{
+    border-bottom: 1px solid black !important;
+  }
+  .date-input:focus {
+    box-shadow: rgb(26, 145, 162) 0px 2px;
   }

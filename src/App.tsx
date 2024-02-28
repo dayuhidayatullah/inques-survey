@@ -13,9 +13,15 @@ import SelectionCheckbox from "./components/SelectionCheckbox";
 import SelectionPriority from "./components/SelectionPriority";
 import Stepper from "./components/Layout/Stepper";
 import StepWizard from "react-step-wizard";
+import Paging from "./components/Layout/Paging";
 
 function App() {
   const tempData = [
+    {
+      type: "date",
+      question: "Apakah Anda Ingin ?",
+      description: "Yang Bener Aja ",
+    },
     {
       type: "likert",
       question: "Apakah Anda Ingin ?",
@@ -88,7 +94,8 @@ function App() {
       <div className="container m-auto">
         <Header />
         {/* <div className="container flex gap-[40px]"> */}
-        <Stepper items={tempData} />
+        {/* <Stepper items={tempData} /> */}
+        <Paging items={tempData} />
         {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
               <SelectionText  />
               <SelectionImage text={true} />
