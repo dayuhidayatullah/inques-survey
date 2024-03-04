@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import SteperStrip from "./components/SteperStrip";
@@ -14,9 +14,15 @@ import SelectionPriority from "./components/SelectionPriority";
 import Stepper from "./components/Layout/Stepper";
 import StepWizard from "react-step-wizard";
 import Paging from "./components/Layout/Paging";
+import Login from "./pages/Login";
+import PrivateAuction from "./pages/PrivateAuction";
 
 function App() {
   const tempData = [
+    {
+      type: "priority",
+      question: "Apakah Anda Ingin ?",
+    },
     {
       type: "date",
       question: "Apakah Anda Ingin ?",
@@ -59,10 +65,7 @@ function App() {
       type: "multiple",
       question: "Apakah Anda Ingin ?",
     },
-    {
-      type: "priority",
-      question: "Apakah Anda Ingin ?",
-    },
+    
   ];
   const mappingQuestion = (type: string) => {
     switch (type) {
@@ -89,13 +92,40 @@ function App() {
     }
   };
   const [tempStep, setTempStep] = useState<number>(3);
+  const onScrollContainer = (e: any) => {
+    console.info(e, '<<< event')
+  }
+  const handleScroll = () => {
+    const newScrollYPosition = window.scrollY;
+    const header = document.getElementById('headerInques')
+    if(newScrollYPosition > 73){
+      header?.classList.add('sticky')
+      header?.classList.add('top-0')
+      header?.classList.add('z-10')
+      header?.classList.remove('mb-[80px]')
+
+    } else {
+      header?.classList.remove('sticky')
+    }
+    console.info(newScrollYPosition);
+};
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+}, []);
+
   return (
     <>
-      <div className="container m-auto">
-        <Header />
+      <div className="h-screen" onScroll={onScrollContainer}>
+        <PrivateAuction />
+        {/* <Login /> */}
+        {/* <Header /> */}
         {/* <div className="container flex gap-[40px]"> */}
         {/* <Stepper items={tempData} /> */}
-        <Paging items={tempData} />
+        {/* <Paging items={tempData} /> */}
         {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
               <SelectionText  />
               <SelectionImage text={true} />

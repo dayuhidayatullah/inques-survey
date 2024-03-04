@@ -243,8 +243,8 @@ const Stepper = ({ items }: { items: any }) => {
           <p className="font-bold text-[40px]"> {props.question}</p>
         </div>
         <div
-          className={`relative ${
-            activeStep > 1 ? "left-[70px]" : ""
+          className={`${
+            activeStep > 1 ? "ml-[70px]" : ""
           } mt-[32px]`}
         >
           <div className="description ">

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import SteperStrip from "../SteperStrip";
 import SelectionText from "../SelectionText";
 import SelectionImage from "../SelectionImage";
@@ -259,8 +259,8 @@ const Paging = ({ items }: { items: any }) => {
               <p className="font-bold text-[40px]"> {props.question}</p>
             </div>
             <div
-              className={`relative ${
-                activeStep > 1 ? "left-[70px]" : ""
+              className={`${
+                activeStep > 1 ? "ml-[70px]" : ""
               } mt-[32px]`}
             >
               <div className="description ">
@@ -271,13 +271,22 @@ const Paging = ({ items }: { items: any }) => {
           </div>
         );
       };
+      const getContainerStepWizard = document.getElementsByClassName('rsw_2Y')
+    useEffect(() => {
+      console.info(window.scrollY, '<<< apa dias')
+      if(!getContainerStepWizard[0].className.includes('container')){
+        getContainerStepWizard[0].classList.add('container')
+      }
+      console.info(getContainerStepWizard[0].className, '<<< apa diasada')
+    }, [window.scrollY, getContainerStepWizard])
   return (
-    <div className="container  gap-[40px]">
+    <main className=" flex flex-col gap-[40px] overflow-x-hidden">
       <div>
         {/* <SteperStrip activeStep={activeStep} totalQuestion={items?.length} /> */}
         {/* <FaArrowLeft className="font-semibold text-[30px] mt-12" /> */}
       </div>
       <StepWizard
+        className='flex justify-center'
         initialStep={tempStep}
         onStepChange={(e) => setActiveStep(e.activeStep)}
         transitions={{
@@ -300,7 +309,7 @@ const Paging = ({ items }: { items: any }) => {
           );
         })}
       </StepWizard>
-    </div>
+    </main>
   )
 }
 
