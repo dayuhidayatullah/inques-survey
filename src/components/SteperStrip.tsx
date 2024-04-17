@@ -11,7 +11,7 @@ const SteperStrip = ({
   const data = [...new Array(totalQuestion)].map((_, i) => i + 1);
 
   return (
-    <div className="container flex gap-7 mb-6">
+    <div className="container mx-auto flex gap-7 mb-6">
       {data.map((el) => {
         return (
           <div

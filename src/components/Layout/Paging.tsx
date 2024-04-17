@@ -12,8 +12,9 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import StepWizard from 'react-step-wizard';
 import 'animate.css'
 import SelectionDate from '../SelectionDate';
+import { CgChevronDoubleDown, CgChevronDoubleUp } from 'react-icons/cg';
 const Paging = ({ items }: { items: any }) => {
-    const [tempStep, setTempStep] = useState<number>(1);
+  const [tempStep, setTempStep] = useState<number>(1);
   const [activeStep, setActiveStep] = useState<number>(1);
     const RenderForm = (props: any) => {
         console.info(props, "<<< props");
@@ -280,13 +281,13 @@ const Paging = ({ items }: { items: any }) => {
       console.info(getContainerStepWizard[0].className, '<<< apa diasada')
     }, [window.scrollY, getContainerStepWizard])
   return (
-    <main className=" flex flex-col gap-[40px] overflow-x-hidden">
-      <div>
+    <main className="flex flex-col gap-[40px] overflow-x-hidden my-auto">
+      {/* <div> */}
         {/* <SteperStrip activeStep={activeStep} totalQuestion={items?.length} /> */}
         {/* <FaArrowLeft className="font-semibold text-[30px] mt-12" /> */}
-      </div>
+      {/* </div> */}
       <StepWizard
-        className='flex justify-center'
+        className='flex justify-center items-center max-[650px]:px-[15px]'
         initialStep={tempStep}
         onStepChange={(e) => setActiveStep(e.activeStep)}
         transitions={{
@@ -309,6 +310,14 @@ const Paging = ({ items }: { items: any }) => {
           );
         })}
       </StepWizard>
+      <div className='flex justify-end absolute bottom-0 right-0 top-0 z-10 flex-col h-[inherit]'>
+        <div className='border-[1px] border-gray-300'>
+          <CgChevronDoubleUp />
+        </div>
+        <div className='border-[1px] border-gray-300'>
+          <CgChevronDoubleDown />
+        </div>
+      </div>
     </main>
   )
 }

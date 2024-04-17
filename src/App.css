@@ -108,3 +108,7 @@
   .date-input:focus {
     box-shadow: rgb(26, 145, 162) 0px 2px;
   }
+  #root {
+    min-height: 100vh;
+    position: relative;
+  }

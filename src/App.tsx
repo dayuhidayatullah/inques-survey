@@ -95,37 +95,37 @@ function App() {
   const onScrollContainer = (e: any) => {
     console.info(e, '<<< event')
   }
-  const handleScroll = () => {
-    const newScrollYPosition = window.scrollY;
-    const header = document.getElementById('headerInques')
-    if(newScrollYPosition > 73){
-      header?.classList.add('sticky')
-      header?.classList.add('top-0')
-      header?.classList.add('z-10')
-      header?.classList.remove('mb-[80px]')
+//   const handleScroll = () => {
+//     const newScrollYPosition = window.scrollY;
+//     const header = document.getElementById('headerInques')
+//     if(newScrollYPosition > 73){
+//       header?.classList.add('sticky')
+//       header?.classList.add('top-0')
+//       header?.classList.add('z-10')
+//       header?.classList.remove('mb-[80px]')
 
-    } else {
-      header?.classList.remove('sticky')
-    }
-    console.info(newScrollYPosition);
-};
+//     } else {
+//       header?.classList.remove('sticky')
+//     }
+//     console.info(newScrollYPosition);
+// };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-    };
-}, []);
+//   useEffect(() => {
+//     window.addEventListener('scroll', handleScroll);
+//     return () => {
+//         window.removeEventListener('scroll', handleScroll);
+//     };
+// }, []);
 
   return (
     <>
       <div className="h-screen" onScroll={onScrollContainer}>
-        <PrivateAuction />
+        {/* <PrivateAuction /> */}
         {/* <Login /> */}
-        {/* <Header /> */}
+        <Header />
         {/* <div className="container flex gap-[40px]"> */}
         {/* <Stepper items={tempData} /> */}
-        {/* <Paging items={tempData} /> */}
+        <Paging items={tempData} />
         {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
               <SelectionText  />
               <SelectionImage text={true} />

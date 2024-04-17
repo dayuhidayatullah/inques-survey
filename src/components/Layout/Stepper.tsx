@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SteperStrip from "../SteperStrip";
 import SelectionText from "../SelectionText";
 import SelectionImage from "../SelectionImage";
@@ -12,9 +12,12 @@ import StepWizard from "react-step-wizard";
 import { RiCheckLine } from "react-icons/ri";
 import 'animate.css'
 import { FaArrowLeft } from "react-icons/fa6";
+import SelectionDate from "../SelectionDate";
 const Stepper = ({ items }: { items: any }) => {
   const [tempStep, setTempStep] = useState<number>(1);
   const [activeStep, setActiveStep] = useState<number>(1);
+
+    
   const RenderForm = (props: any) => {
     console.info(props, "<<< props");
     const Stats = ({
@@ -228,6 +231,22 @@ const Stepper = ({ items }: { items: any }) => {
               />
             </>
           );
+          case "date":
+          return (
+            <>
+              <SelectionDate dateYear={false}  />
+              <Stats
+                step={props.index}
+                currentStep={props.currentStep}
+                firstStep={props.firstStep}
+                goToStep={props.goToStep}
+                lastStep={props.lastStep}
+                nextStep={props.nextStep}
+                previousStep={props.previousStep}
+                totalSteps={props.totalSteps}
+              />
+            </>
+          );
       }
     };
     return (
@@ -255,14 +274,21 @@ const Stepper = ({ items }: { items: any }) => {
       </div>
     );
   };
-
+  const getContainerStepWizard = document.getElementsByClassName('rsw_2Y')
+  useEffect(() => {
+    console.info(window.scrollY, '<<< apa dias')
+    if(!getContainerStepWizard[0].className.includes('container')){
+      getContainerStepWizard[0].classList.add('container')
+    }
+    console.info(getContainerStepWizard[0].className, '<<< apa diasada')
+  }, [window.scrollY, getContainerStepWizard])
   return (
-    <div className="container  gap-[40px]">
-      <div>
-        <SteperStrip activeStep={activeStep} totalQuestion={items?.length} />
-        {/* <FaArrowLeft className="font-semibold text-[30px] mt-12" /> */}
-      </div>
+    <main className="flex flex-col gap-[40px]  overflow-x-hidden mx-auto">
+        {/* <div className="max-[650px]:px-[15px]"> */}
+          <SteperStrip activeStep={activeStep} totalQuestion={items?.length} />
+        {/* </div> */}
       <StepWizard
+        className="max-[650px]:px-[15px] flex justify-center items-center"
         initialStep={tempStep}
         onStepChange={(e) => setActiveStep(e.activeStep)}
       >
@@ -278,7 +304,7 @@ const Stepper = ({ items }: { items: any }) => {
           );
         })}
       </StepWizard>
-    </div>
+    </main>
   );
 };
 
