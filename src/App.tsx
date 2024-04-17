@@ -65,7 +65,6 @@ function App() {
       type: "multiple",
       question: "Apakah Anda Ingin ?",
     },
-    
   ];
   const mappingQuestion = (type: string) => {
     switch (type) {
@@ -93,33 +92,37 @@ function App() {
   };
   const [tempStep, setTempStep] = useState<number>(3);
   const onScrollContainer = (e: any) => {
-    console.info(e, '<<< event')
-  }
-//   const handleScroll = () => {
-//     const newScrollYPosition = window.scrollY;
-//     const header = document.getElementById('headerInques')
-//     if(newScrollYPosition > 73){
-//       header?.classList.add('sticky')
-//       header?.classList.add('top-0')
-//       header?.classList.add('z-10')
-//       header?.classList.remove('mb-[80px]')
+    console.info(e, "<<< event");
+  };
+  //   const handleScroll = () => {
+  //     const newScrollYPosition = window.scrollY;
+  //     const header = document.getElementById('headerInques')
+  //     if(newScrollYPosition > 73){
+  //       header?.classList.add('sticky')
+  //       header?.classList.add('top-0')
+  //       header?.classList.add('z-10')
+  //       header?.classList.remove('mb-[80px]')
 
-//     } else {
-//       header?.classList.remove('sticky')
-//     }
-//     console.info(newScrollYPosition);
-// };
+  //     } else {
+  //       header?.classList.remove('sticky')
+  //     }
+  //     console.info(newScrollYPosition);
+  // };
 
-//   useEffect(() => {
-//     window.addEventListener('scroll', handleScroll);
-//     return () => {
-//         window.removeEventListener('scroll', handleScroll);
-//     };
-// }, []);
+  //   useEffect(() => {
+  //     window.addEventListener('scroll', handleScroll);
+  //     return () => {
+  //         window.removeEventListener('scroll', handleScroll);
+  //     };
+  // }, []);
 
   return (
     <>
-      <div className="h-screen" onScroll={onScrollContainer}>
+      <div
+        className="h-screen"
+        id={"container-root"}
+        onScroll={onScrollContainer}
+      >
         {/* <PrivateAuction /> */}
         {/* <Login /> */}
         <Header />
