@@ -12,7 +12,9 @@ const SelectionImage = ({ text }: { text: Boolean }) => {
     else return 2;
   };
   return (
-    <div className={`container grid grid-rows-3 grid-flow-col gap-3`}>
+    <div
+      className={`container grid grid-cols-3 max-[900px]:grid-cols-2 max-[650px]:grid-cols-1  gap-3`}
+    >
       {temp.map((el) => {
         return (
           <div
@@ -33,7 +35,7 @@ const SelectionImage = ({ text }: { text: Boolean }) => {
                 <p
                   className={`${
                     el === selectQuestion ? "bg-indigo-500 text-white" : ""
-                  } px-2 rounded-md border-[2px] border-gray-500 font-semibold text-[25px]`}
+                  }  rounded-md border-[2px] border-gray-500 font-semibold text-[25px] min-w-[40px] text-center`}
                 >
                   {el}
                 </p>

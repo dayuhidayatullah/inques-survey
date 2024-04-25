@@ -16,6 +16,7 @@ import StepWizard from "react-step-wizard";
 import Paging from "./components/Layout/Paging";
 import Login from "./pages/Login";
 import PrivateAuction from "./pages/PrivateAuction";
+import "animate.css";
 
 function App() {
   const tempData = [
@@ -31,7 +32,11 @@ function App() {
     {
       type: "likert",
       question: "Apakah Anda Ingin ?",
-      description: "Yang Bener Aja ",
+      description: "Selection Likert ",
+    },
+    {
+      type: "likertRating",
+      question: "Apakah Anda Ingin ?",
     },
     {
       type: "selectionImage",
@@ -49,17 +54,14 @@ function App() {
       type: "dropdown",
       question: "Apakah Anda Ingin ?",
     },
-    {
-      type: "likertRating",
-      question: "Apakah Anda Ingin ?",
-    },
+
     {
       type: "selectionText",
       question: "Apakah Anda Ingin ?",
     },
     {
       type: "ratingStar",
-      question: "Apakah Anda Ingin ?",
+      question: "Selection Likert ?",
     },
     {
       type: "multiple",

@@ -11,20 +11,31 @@ const SelectionLikert = ({ isRatingLikert }: { isRatingLikert: Boolean }) => {
     if (temp.length % 3 === 0) return 3;
     else return 2;
   };
-  
+
   return (
-    <div className={`container flex ${isRatingLikert ? "" : "gap-2"}  mt-3`}>
+    <div className={`container flex ${isRatingLikert ? "" : "gap-1"}  mt-3`}>
       {temp.map((el, i) => {
         return (
           <div
             className={`${
-              i !== 0 || i === temp.length - 1
-                ? "border-r-2 border-y-2 "
-                : "border-y-2 border-r-2 "
-            } p-6 ${selectQuestion === el ? "bg-indigo-500 text-white " : ""}
-            ${i === temp.length - 1 ? "rounded-e-md" : ""}
-            ${i === 0 ? "border-l-2 rounded-s-md" : ""}
-            `}
+              isRatingLikert
+                ? i !== 0 || i === temp.length - 1
+                  ? "border-r-2 border-y-2 "
+                  : "border-y-2 border-r-2 "
+                : ""
+            } 
+            ${!isRatingLikert ? "border-2 border-gray rounded-[6px] p-2" : ""}
+            p-6 ${selectQuestion === el ? "bg-indigo-500 text-white " : ""}
+            ${
+              isRatingLikert
+                ? i === temp.length - 1
+                  ? "rounded-e-md"
+                  : ""
+                : ""
+            }
+            ${
+              isRatingLikert ? (i === 0 ? "border-l-2 rounded-s-md" : "") : ""
+            }`}
             onClick={() => setSelectQuestion(el)}
           >
             {el}
