@@ -8,19 +8,25 @@ const SelectionRating = () => {
   const [selectRating, setSelectRating] = useState<number>(-1);
   return (
     <div className="container flex gap-2 cursor-pointer">
-      {temp.map((el) => {
+      {temp.map((el, i) => {
         return (
           <>
             {el <= selectRating ? (
-              <HiStar
-                onClick={() => setSelectRating(el)}
-                className={`text-[45px] text-blue-600`}
-              />
+              <div className="flex flex-col items-center">
+                <HiStar
+                  onClick={() => setSelectRating(el)}
+                  className={`text-[45px] text-blue-600`}
+                />
+                <p className="text-[15px] text-black">{i + 1}</p>
+              </div>
             ) : (
-              <HiOutlineStar
-                className={`text-[45px]`}
-                onClick={() => setSelectRating(el)}
-              />
+              <div className="flex flex-col items-center">
+                <HiOutlineStar
+                  className={`text-[45px]`}
+                  onClick={() => setSelectRating(el)}
+                />
+                <p className="text-[15px] text-black">{i + 1}</p>
+              </div>
             )}
             {/* <CiStar className={`text-[25px] ${el <= selectRating ? 'text-indigo-500' : ''}`} onClick={() => setSelectRating(el)} /> */}
           </>

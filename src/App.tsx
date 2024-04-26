@@ -126,11 +126,17 @@ function App() {
         onScroll={onScrollContainer}
       >
         {/* <PrivateAuction /> */}
-        {/* <Login /> */}
-        <Header />
+        <Login />
+        {/* <Header />
+        <div className="sticky top-[0px] z-10 w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+          <div
+            className="bg-blue-600 h-1.5 rounded-r-full rounded-br-full dark:bg-blue-500"
+            style={{ width: "45%" }}
+          ></div>
+        </div> */}
         {/* <div className="container flex gap-[40px]"> */}
         {/* <Stepper items={tempData} /> */}
-        <Paging items={tempData} />
+        {/* <Paging items={tempData} /> */}
         {/* <StepWizard initialStep={tempStep} onStepChange={(e) => console.info(e, '<<< apadia')}  >
               <SelectionText  />
               <SelectionImage text={true} />

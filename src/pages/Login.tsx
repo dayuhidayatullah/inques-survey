@@ -1,22 +1,25 @@
-
-
 const Login = () => {
   return (
-<div className="font-sans h-screen">
-      <div className="container mx-auto pt-20">
+    <div className="font-sans h-screen">
+      <div className="container mx-auto mt-[100px]">
         <div className="flex justify-center items-center shadow-[0_0.125rem_0.25rem_rgba(0,0,0,0.075)] ">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
             <div
-              className="w-full h-auto  hidden lg:block lg:w-1/2 bg-cover rounded-l-lg h-screen"
-              style={{ backgroundImage: `url(https://www.surveylegend.com/wordpress/wp-content/uploads/2021/04/survey-testing.png)` }}
+              className="w-full h-auto  hidden lg:block lg:w-1/2 bg-cover rounded-l-lg bg-no-repeat"
+              style={{
+                backgroundImage: `url(https://www.surveylegend.com/wordpress/wp-content/uploads/2021/04/survey-testing.png)`,
+              }}
             ></div>
             <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
               <h3 className="pt-4 text-2xl text-center">Login</h3>
               <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="username">
+                  <label
+                    className="block mb-2 text-sm font-bold text-gray-700"
+                    htmlFor="username"
+                  >
                     Email
-								</label>
+                  </label>
                   <input
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="username"
@@ -27,9 +30,12 @@ const Login = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
+                  <label
+                    className="block mb-2 text-sm font-bold text-gray-700"
+                    htmlFor="password"
+                  >
                     Password
-								</label>
+                  </label>
                   <input
                     className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="password"
@@ -41,10 +47,14 @@ const Login = () => {
                   {/* <p className="text-xs italic text-red-500">Please choose a password.</p> */}
                 </div>
                 <div className="mb-4">
-                  <input className="mr-2 leading-tight" type="checkbox" id="checkbox_id" />
+                  <input
+                    className="mr-2 leading-tight"
+                    type="checkbox"
+                    id="checkbox_id"
+                  />
                   <label className="text-sm" htmlFor="checkbox_id">
                     Remember Me
-								</label>
+                  </label>
                 </div>
                 <div className="mb-6 text-center">
                   <button
@@ -53,7 +63,7 @@ const Login = () => {
                     // onClick={(e) => handleSubmit(e)}
                   >
                     Sign In
-								</button>
+                  </button>
                 </div>
                 {/* <hr className="mb-6 border" />
                 <div className="text-center">
@@ -70,7 +80,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
