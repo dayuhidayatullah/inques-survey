@@ -1,4 +1,55 @@
+import { useEffect, useState } from "react";
+import axios from '../api/axios'
+import { useNavigate } from "react-router-dom";
+interface Form {
+  email: string,
+  password: string,
+  // name: string,
+}
 const Login = () => {
+  const [form, setForm] = useState<Form>({
+    email: '',
+    password: ''
+  })
+  const navigate = useNavigate()
+  const token = localStorage.access_token
+  console.info(token, '<<< token')
+  useEffect(() => {
+
+    if (token) {
+      //   const me = await refreshMeData();
+      //   if (me?.role?.toLowerCase() !== 'user') {
+      //     await refreshMasterData();
+      //   } else {
+      //     store.setClientSelected(me);
+      //     setClientSelected(me);
+      //   }
+      // e.preventDefault()
+      // window.location.href = `/`;
+      navigate('/')
+    }
+  })
+      // else {
+      // }
+
+    // console.info(token, '<<< token')
+  const handleChangeInput = (e: any) => {
+    setForm({...form, [e.target.name]: e.target.value})
+  }
+  const handleSubmitLogin = async (event: any) => {
+    event?.preventDefault()
+    
+    try {
+      const request = await axios.post('/login', form)
+      if(request.data){
+        localStorage.setItem('access_token', request.data.access_token)
+        navigate('/')
+        
+      }
+    } catch (error) {
+      console.info(error)
+    }
+  }
   return (
     <div className="font-sans h-screen">
       <div className="container mx-auto mt-[100px]">
@@ -12,7 +63,7 @@ const Login = () => {
             ></div>
             <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
               <h3 className="pt-4 text-2xl text-center">Login</h3>
-              <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+              <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={handleSubmitLogin}>
                 <div className="mb-4">
                   <label
                     className="block mb-2 text-sm font-bold text-gray-700"
@@ -23,9 +74,9 @@ const Login = () => {
                   <input
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="username"
-                    type="email"
+                    // type="email"
                     name="email"
-                    // onChange={(e) => handleChangeInput(e)}
+                    onChange={(e) => handleChangeInput(e)}
                     placeholder="Email"
                   />
                 </div>
@@ -41,7 +92,7 @@ const Login = () => {
                     id="password"
                     type="password"
                     name="password"
-                    // onChange={(e) => handleChangeInput(e)}
+                    onChange={(e) => handleChangeInput(e)}
                     placeholder="******"
                   />
                   {/* <p className="text-xs italic text-red-500">Please choose a password.</p> */}

@@ -17,6 +17,7 @@ import Paging from "./components/Layout/Paging";
 import Login from "./pages/Login";
 import PrivateAuction from "./pages/PrivateAuction";
 import "animate.css";
+import Routes from "./routes";
 
 function App() {
   const tempData = [
@@ -126,7 +127,8 @@ function App() {
         onScroll={onScrollContainer}
       >
         {/* <PrivateAuction /> */}
-        <Login />
+        <Routes />
+        {/* <Login /> */}
         {/* <Header />
         <div className="sticky top-[0px] z-10 w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
           <div
