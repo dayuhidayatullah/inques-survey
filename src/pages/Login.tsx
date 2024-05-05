@@ -15,7 +15,6 @@ const Login = () => {
   const token = localStorage.access_token
   console.info(token, '<<< token')
   useEffect(() => {
-
     if (token) {
       //   const me = await refreshMeData();
       //   if (me?.role?.toLowerCase() !== 'user') {
