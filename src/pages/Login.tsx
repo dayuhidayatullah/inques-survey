@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import axios from '../api/axios'
+import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 interface Form {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
   // name: string,
 }
 const Login = () => {
   const [form, setForm] = useState<Form>({
-    email: '',
-    password: ''
-  })
-  const navigate = useNavigate()
-  const token = localStorage.access_token
-  console.info(token, '<<< token')
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const token = localStorage.access_token;
+  console.info(token, "<<< token");
   useEffect(() => {
     if (token) {
       //   const me = await refreshMeData();
@@ -25,30 +25,36 @@ const Login = () => {
       //   }
       // e.preventDefault()
       // window.location.href = `/`;
-      navigate('/')
+      navigate("/");
     }
-  })
-      // else {
-      // }
+  });
+  // else {
+  // }
 
-    // console.info(token, '<<< token')
+  // console.info(token, '<<< token')
   const handleChangeInput = (e: any) => {
-    setForm({...form, [e.target.name]: e.target.value})
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   const handleSubmitLogin = async (event: any) => {
-    event?.preventDefault()
-    
+    event?.preventDefault();
+
     try {
-      const request = await axios.post('/login', form)
-      if(request.data){
-        localStorage.setItem('access_token', request.data.access_token)
-        navigate('/')
-        
+      const request = await axios.post("/login", form);
+      if (request.data) {
+        localStorage.setItem("access_token", request.data.access_token);
+        navigate("/");
+        axios
+          .get("/auction/private", {
+            headers: { access_token: request.data.access_token },
+          })
+          .then((data) => {
+            console.info(data);
+          });
       }
     } catch (error) {
-      console.info(error)
+      console.info(error);
     }
-  }
+  };
   return (
     <div className="font-sans h-screen">
       <div className="container mx-auto mt-[100px]">
@@ -62,7 +68,10 @@ const Login = () => {
             ></div>
             <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
               <h3 className="pt-4 text-2xl text-center">Login</h3>
-              <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded" onSubmit={handleSubmitLogin}>
+              <form
+                className="px-8 pt-6 pb-8 mb-4 bg-white rounded"
+                onSubmit={handleSubmitLogin}
+              >
                 <div className="mb-4">
                   <label
                     className="block mb-2 text-sm font-bold text-gray-700"
