@@ -37,19 +37,18 @@ const Login = () => {
   };
   const handleSubmitLogin = async (event: any) => {
     event?.preventDefault();
-
     try {
       const request = await axios.post("/login", form);
       if (request.data) {
         localStorage.setItem("access_token", request.data.access_token);
-        navigate("/");
-        axios
-          .get("/auction/private", {
-            headers: { access_token: request.data.access_token },
-          })
-          .then((data) => {
-            console.info(data);
-          });
+        navigate("/auction");
+        // axios
+        //   .get("/auction/private", {
+        //     headers: { access_token: request.data.access_token },
+        //   })
+        //   .then((data) => {
+
+        //   });
       }
     } catch (error) {
       console.info(error);

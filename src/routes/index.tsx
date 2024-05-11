@@ -66,11 +66,11 @@ const router = createBrowserRouter(
         errorElement={<ErrorBoundary />}
       /> */}
       <Route path="/" element={<ProtectedLayout />} errorElement={<ErrorBoundary />}>
-        <Route index={true} element={<Navigate to="/home" />} errorElement={<ErrorBoundary />} />
-        <Route path="/auction" element={<LazyComponent children={<PrivateAuction />} />} errorElement={<ErrorBoundary />}/>
-        <Route path="home" errorElement={<ErrorBoundary />}>
+        {/* <Route element={<Navigate to="/home" />} errorElement={<ErrorBoundary />} /> */}
+        <Route index={true} path="/auction" element={<LazyComponent children={<PrivateAuction />} />} errorElement={<ErrorBoundary />}/>
+        <Route path="survey" errorElement={<ErrorBoundary />}>
         {/* <Route path="" /> */}
-          <Route path="/home" element={<LazyComponent children={<Home />} />} errorElement={<ErrorBoundary />} />
+          <Route path="/survey" element={<LazyComponent children={<Home />} />} errorElement={<ErrorBoundary />} />
           {/* <Route
             path="add-chart"
             element={<LazyComponent children={<AddChart />} />}
