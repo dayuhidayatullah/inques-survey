@@ -12,7 +12,7 @@ function getMockItems() {
 }
 
 export default function App(props: any) {
-  console.info(props, "<<< props");
+  // console.info(props, "<<< props");
   const [items, setItems] = useState(getMockItems);
 
   return (

@@ -1,40 +1,87 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { RiCheckLine } from "react-icons/ri";
+import { useSurvey } from "../hooks/useSurvey";
+import { QuestionProps } from "../types/surveys";
 
-const SelectionText = () => {
+interface OptionProps {
+  bImageOption: number
+  decOptionScore: string
+  id: number
+  shItem: number
+  szOptionId: string
+  szValueId: string
+  szOption: string
+}
+const SelectionText = ({options}: {options?: OptionProps[]}) => {
   const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
   const temp = Array.from(alphabet.slice(0, 9).values());
-  console.info(temp, "<<< apa dia");
+  // console.info(temp, "<<< apa dia");
   const [selectQuestion, setSelectQuestion] = useState<string | Number | null>(
     null
   );
-  const devideQuestionGrid = () => {
-    if (temp.length % 2 === 0) return 2;
-    if (temp.length % 3 === 0) return 3;
-    else return 2;
+  const surveyStore = useSurvey()
+  // console.info(options, '<<<< options')
+  const answer = useMemo(() => {
+    if(surveyStore.activeStep){
+      return surveyStore.questionList.find((el: any) => el.shItem === surveyStore.activeStep)?.answer
+    }
+    // console.info(surveyStore.activeStep, '<<<< apa dia coba')
+  }, [surveyStore.questionList, surveyStore.activeStep])
+  const handleOptionClick = (el: OptionProps, i: number) => {
+    // console.info(el.id, document.getElementById(`itemLikert${i}`)?.classList, '<<< apa dia')
+
+    if (surveyStore?.activeStep) {
+      surveyStore.setQuestionList(
+        surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
+          if (value.shItem === surveyStore.activeStep) {
+            if(value.answer === el.id){
+              return {
+                ...value,
+                answer: ''
+              }
+            } else {
+              return {
+                ...value,
+                answer: el.id
+              }
+            }
+            
+          } 
+          return value
+        })
+      );
+    
+    }
+    setTimeout(() => {
+      if(answer !== el.id){
+
+        surveyStore.nextStepSurvey()
+      }
+      
+    }, 400)
   };
   return (
     <div
-      className={`container grid grid-cols-3 max-[900px]:grid-cols-2 max-[650px]:grid-cols-1  list-none  gap-3`}
+      className={`container flex flex-col   list-none  gap-3`}
     >
-      {temp.map((el) => {
+      {options?.map((el, i) => {
         return (
           <div
-            key={el}
+            key={i}
             className={`border-[2px] min-[785px]:w-[calc(33.3333% - 5.33333px)] ${
-              selectQuestion === el ? "border-indigo-500" : "border-gray-500"
+              answer === el.id ? "border-indigo-500" : "border-gray-500"
             } flex items-center justify-between gap-2 rounded-xl p-2 cursor-pointer `}
-            onClick={() => setSelectQuestion(el)}
+            onClick={() => handleOptionClick(el, i)}
           >
             <div className="flex gap-2 items-center">
               <p
                 className={`${
-                  el === selectQuestion ? "bg-indigo-500 text-white" : ""
+                  el.id === answer ? "bg-indigo-500 text-white" : ""
                 } px-2 rounded-md border-[2px] border-gray-500 font-semibold min-w-[40px] text-center uppercase text-[25px]`}
               >
-                {el}
+                {alphabet[i]}
               </p>
-              <p className="font-normal text-[20px]">Up to $1,000</p>
+              <p className="font-normal text-[20px]">{el.szOption}</p>
             </div>
             {/* <div style={{
                     borderTop: '25px solid transparent',
@@ -50,7 +97,7 @@ const SelectionText = () => {
                     
                 </div> */}
 
-            {el === selectQuestion && (
+            {el.id === answer && (
               <RiCheckLine className="text-indigo-500" />
             )}
           </div>

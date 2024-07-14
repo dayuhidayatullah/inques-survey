@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 interface Form {
   email: string;
   password: string;
   // name: string,
 }
+interface AuthContextProps {
+  login: (data: {email: string, password: string}, isAdmin: boolean) => Promise<void>
+  user?: string
+}
 const Login = () => {
+  const user: AuthContextProps | null = useAuth();
+
   const [form, setForm] = useState<Form>({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
   const token = localStorage.access_token;
-  console.info(token, "<<< token");
+  console.info(token, token, "<<< token");
   useEffect(() => {
-    if (token) {
-      //   const me = await refreshMeData();
-      //   if (me?.role?.toLowerCase() !== 'user') {
-      //     await refreshMasterData();
-      //   } else {
-      //     store.setClientSelected(me);
-      //     setClientSelected(me);
-      //   }
-      // e.preventDefault()
-      // window.location.href = `/`;
+    console.info(user?.user, '<<<<')
+    if (user?.user) {
       navigate("/");
     }
   });
@@ -37,19 +36,22 @@ const Login = () => {
   };
   const handleSubmitLogin = async (event: any) => {
     event?.preventDefault();
+    
     try {
-      const request = await axios.post("/login", form);
-      if (request.data) {
-        localStorage.setItem("access_token", request.data.access_token);
-        navigate("/auction");
-        // axios
-        //   .get("/auction/private", {
-        //     headers: { access_token: request.data.access_token },
-        //   })
-        //   .then((data) => {
+      await user?.login(form, location.pathname === '/login-admin' ? true : false)
 
-        //   });
-      }
+      // const request = await axios.post("/login", form);
+      // if (request.data) {
+      //   localStorage.setItem("access_token", request.data.access_token);
+      //   navigate("/auction");
+      //   // axios
+      //   //   .get("/auction/private", {
+      //   //     headers: { access_token: request.data.access_token },
+      //   //   })
+      //   //   .then((data) => {
+
+      //   //   });
+      // }
     } catch (error) {
       console.info(error);
     }

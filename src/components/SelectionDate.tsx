@@ -13,7 +13,7 @@ const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const CalendarContainer = ({ children }: any) => {
     const el = document.getElementById("container-root");
-    console.info(el, "<<<< element");
+    // console.info(el, "<<<< element");
 
     return <Portal container={el}>{children}</Portal>;
   };

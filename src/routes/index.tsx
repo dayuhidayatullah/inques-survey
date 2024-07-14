@@ -11,6 +11,11 @@ import {
 // import { DashboardProvider } from '@/hooks/useDashboard';
 import ProtectedLayout from '../components/Layout/ProtectedLayout.tsx';
 import PrivateAuction from '../pages/PrivateAuction.tsx';
+import { AuthProvider } from '../hooks/useAuth.tsx';
+import SurveyIntro from '../pages/SurveyIntro.tsx';
+import { SurveyProvider } from '../hooks/useSurvey.tsx';
+import ProtectedLayoutAdmin from '../components/Layout/ProtectedLayoutAdmin.tsx';
+import HomeAdmin from '../pages/HomeAdmin.tsx';
 
 // const Loading = lazy(() => import('../components/Loading'));
 
@@ -45,6 +50,13 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/login" element={<LazyComponent children={<Login />} />} errorElement={<ErrorBoundary />} />
+      <Route path="/login-admin" element={<LazyComponent children={<Login />} />} errorElement={<ErrorBoundary />}  />
+      {/* <Route path={} */}
+      {/* <Route path="/admin" element={<ProtectedLayoutAdmin />} errorElement={<ErrorBoundary />}>
+        <Route index element={<Navigate to="/admin/home" />} errorElement={<ErrorBoundary />} />
+        <Route  path="/admin/home" element={<LazyComponent children={<HomeAdmin />} />} errorElement={<ErrorBoundary />}/>
+
+      </Route> */}
       {/* <Route
         path="/forgot-password"
         element={<LazyComponent children={<ForgotPassword />} />}
@@ -66,11 +78,12 @@ const router = createBrowserRouter(
         errorElement={<ErrorBoundary />}
       /> */}
       <Route path="/" element={<ProtectedLayout />} errorElement={<ErrorBoundary />}>
-        {/* <Route element={<Navigate to="/home" />} errorElement={<ErrorBoundary />} /> */}
-        <Route index={true} path="/auction" element={<LazyComponent children={<PrivateAuction />} />} errorElement={<ErrorBoundary />}/>
+        <Route index element={<Navigate to="/auction" />} errorElement={<ErrorBoundary />} />
+        <Route  path="/auction" element={<LazyComponent children={<PrivateAuction />} />} errorElement={<ErrorBoundary />}/>
         <Route path="survey" errorElement={<ErrorBoundary />}>
         {/* <Route path="" /> */}
-          <Route path="/survey" element={<LazyComponent children={<Home />} />} errorElement={<ErrorBoundary />} />
+          <Route path="/survey/question/:id/:step" element={<LazyComponent children={<Home />} />} errorElement={<ErrorBoundary />} />
+          <Route path="/survey/:id" element={<LazyComponent children={<SurveyIntro />} />} errorElement={<ErrorBoundary />} />
           {/* <Route
             path="add-chart"
             element={<LazyComponent children={<AddChart />} />}
@@ -97,11 +110,12 @@ const router = createBrowserRouter(
 );
 
 const AppRoutes = () => (
-//   <AuthProvider>
-//     <DashboardProvider>
+  <AuthProvider>
+    <SurveyProvider>
+
       <RouterProvider router={router} />
-//     </DashboardProvider>
-//   </AuthProvider>
+    </SurveyProvider>
+   </AuthProvider>
 );
 
 export default AppRoutes;
