@@ -14,8 +14,9 @@ const SelectionRating = () => {
             {el <= selectRating ? (
               <div className="flex flex-col items-center">
                 <HiStar
+                  size={50}
                   onClick={() => setSelectRating(el)}
-                  className={`text-[45px] text-blue-600`}
+                  className={`text-[45px] text-blue-600 ${selectRating === el ? 'animate__animated animate__flash animate__faster': ''}`}
                 />
                 <p className="text-[15px] text-black">{i + 1}</p>
               </div>
@@ -23,6 +24,7 @@ const SelectionRating = () => {
               <div className="flex flex-col items-center">
                 <HiOutlineStar
                   className={`text-[45px]`}
+                  size={50}
                   onClick={() => setSelectRating(el)}
                 />
                 <p className="text-[15px] text-black">{i + 1}</p>

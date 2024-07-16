@@ -181,3 +181,7 @@
     box-shadow: #e3d5ca 0px 2px;
     
   } */
+  .react-date-picker__inputGroup__month {
+    /* pointer-events: none; Disable interactions Make it look disabled */
+    /* display: none; */
+  }

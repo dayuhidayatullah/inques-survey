@@ -27,7 +27,7 @@ const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
         className={
           "date-input w-[350px] h-[40px] border-b-2 border-gray-400 focus:outline-none"
         }
-        view={"century"}
+        // view={'v'}
         autoFocus
         onChange={(e) => {
           setSelectedDate(e);
@@ -36,6 +36,8 @@ const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
         value={selectedDate}
         // selected={selectedDate}
         locale={"id"}
+        // showNeighboringMonth={false}
+        format={!dateYear ? 'dd-MM' : 'dd-MM-yyyy'}
       ></DatePicker>
     </div>
   );

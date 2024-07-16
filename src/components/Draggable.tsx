@@ -108,19 +108,29 @@ function DragHandle() {
 interface BaseItem {
   id: UniqueIdentifier;
 }
+interface OptionProps {
+  bImageOption: number;
+  decOptionScore: string;
+  id: number;
+  shItem: number;
+  szOptionId: string;
+  szValueId: string;
+  szOption: string;
+}
 
-interface PropsSortableItems<T extends BaseItem> {
+interface PropsSortableItems<T extends OptionProps> {
   items: T[];
   onChange(items: T[]): void;
   renderItem(item: T): ReactNode;
 }
 
-export function SortableList<T extends BaseItem>({
+export function SortableList<T extends OptionProps>({
   items,
   onChange,
   renderItem,
 }: PropsSortableItems<T>) {
   const [active, setActive] = useState<Active | null>(null);
+  console.info(active, items, '<<< activeItem')
   const activeItem = useMemo(
     () => items.find((item) => item.id === active?.id),
     [active, items]
@@ -154,7 +164,8 @@ export function SortableList<T extends BaseItem>({
       <SortableContext items={items}>
         <ul className="SortableList" role="application">
           {items.map((item) => (
-            <React.Fragment key={item.id}>{renderItem(item)}</React.Fragment>
+            <React.Fragment key={item.szOption}>{renderItem(item)}
+            </React.Fragment>
           ))}
         </ul>
       </SortableContext>

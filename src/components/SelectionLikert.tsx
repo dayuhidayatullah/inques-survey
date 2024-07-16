@@ -13,7 +13,7 @@ interface OptionProps {
   szOption: string
 }
 
-const SelectionLikert = ({ isRatingLikert, option }: { isRatingLikert: Boolean, option?: OptionProps[]}) => {
+const SelectionLikert = ({ isRatingLikert, options }: { isRatingLikert: Boolean, options?: OptionProps[]}) => {
   // const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
   // const temp = Array.from(alphabet.slice(0, 9).values());
   // console.info(option, '<<<<< option selection likert')
@@ -75,7 +75,7 @@ const SelectionLikert = ({ isRatingLikert, option }: { isRatingLikert: Boolean, 
   }, [surveyStore.questionList, surveyStore.activeStep])
   return (
     <div className={`container flex ${isRatingLikert ? "" : "gap-1"}  mt-3`}>
-      {option?.map((el: OptionProps, i:number) => {
+      {options?.map((el: OptionProps, i:number) => {
         return (
           <div
             id={`itemLikert${i}`}
@@ -85,7 +85,7 @@ const SelectionLikert = ({ isRatingLikert, option }: { isRatingLikert: Boolean, 
             }
             ${
               isRatingLikert
-                ? i !== 0 || i === option.length - 1
+                ? i !== 0 || i === options.length - 1
                   ? "border-r-2 border-y-2 "
                   : "border-y-2 border-r-2 "
                 : ""
@@ -94,7 +94,7 @@ const SelectionLikert = ({ isRatingLikert, option }: { isRatingLikert: Boolean, 
             p-6 ${answer === el.id ? "bg-indigo-500 text-white " : ""}
             ${
               isRatingLikert
-                ? i === option.length - 1
+                ? i === options.length - 1
                   ? "rounded-e-md"
                   : ""
                 : ""

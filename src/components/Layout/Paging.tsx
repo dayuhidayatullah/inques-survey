@@ -12,6 +12,9 @@ import Input from "../Input";
 import SelectionCheckbox from "../SelectionCheckbox";
 import SelectionPriority from "../SelectionPriority";
 import UploadImage from "../UploadImage";
+import SelectionDate from "../SelectionDate";
+import SelectionSpeedo from "../SelectionSpeedo";
+import Instruction from "../Instruction";
 
 const Paging = ({ items }: any) => {
   const surveyStore = useSurvey();
@@ -79,20 +82,33 @@ const Paging = ({ items }: any) => {
             case "Selection Text":
               return <SelectionText options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />;
             case "Selection Likert":
-              return <SelectionLikert isRatingLikert={true} option={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />;
+              return <SelectionLikert isRatingLikert={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />;
             case "Selection Image":
               return <SelectionImage text={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} optionItemImages={surveyStore.optionItemImages} />;
             case "Selection ImageText":
               return <SelectionImage text={true} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} optionItemImages={surveyStore.optionItemImages} />;
             case "Selection Dropdown":
               return <SelectionDropdown inputDropdownValue={inputDropdown} setInputDropdownValue={setInputDropdown} showListDropdown={showListDropdown} options={surveyStore.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} setShowListDropdown={setShowListDropdown} />;
+            // case "Selection Likert": 
+            // console.info('masuk likert')
+            //   return <SelectionLikert isRatingLikert={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
             default:
               return null;
           }
         case "Rat-Rating":
-          return null; // Placeholder for Rating case
+          switch(props?.Option?.szAnswerStyleTypeId){
+            case 'Rating Star':
+              return <SelectionRating />
+            case 'Rating Likert':
+              return <SelectionLikert isRatingLikert={true} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
+            case 'Rating Speedo': 
+             return <SelectionSpeedo options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
+            default: 
+            return null
+          }
+      
         case "Pri-Prioritas":
-          return <SelectionPriority />;
+          return <SelectionPriority options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore?.activeStep)?.Option.OptionItems} />;
         case "Mul-Multiple":
           return <SelectionCheckbox />;
         case "ratingStar":
@@ -107,6 +123,9 @@ const Paging = ({ items }: any) => {
         }
         case "likertRating":
           return <SelectionLikert isRatingLikert={true} option={surveyStore?.optionItems} />;
+        case "Dat-Date":
+        case "Day-DateYear":
+          return <SelectionDate dateYear={props.szAnswerStyleId === 'Day-DateYear' ? true : false} />
         default:
           return null;
       }
@@ -114,6 +133,8 @@ const Paging = ({ items }: any) => {
 
     return (
       <div className="h-full w-full mx-auto step">
+        {props.szAnswerStyleId !== 'Ins-Instruction' ? 
+        
         <div className="pe-0 ps-0">
           <div className="mx-auto text-start flex flex-col gap-5">
             <div className="max-w-[1000px] min-[1000px]:min-w-[800px]">
@@ -124,9 +145,11 @@ const Paging = ({ items }: any) => {
               <div className="description">
                 <p className="">{props.description}</p>
               </div>
-              <p className="font-semiBold text-[20px]">{props.szQuestion}</p>
+              <p className="font-semiBold text-[20px]" dangerouslySetInnerHTML={{__html: props.szQuestion}} ></p>
             </div>
+          
             {mappingQuestion()}
+            
             <div>
               {surveyStore.activeStep < items.length ? (
                 <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`} onClick={surveyStore.nextStepSurvey}>
@@ -140,7 +163,23 @@ const Paging = ({ items }: any) => {
               <div style={{ fontSize: "21px", fontWeight: "200" }}></div>
             </div>
           </div>
+        </div>:
+        <div className="flex flex-col gap-10 items-center">
+        <Instruction instruction={props.szQuestion} />
+        <div>
+              {surveyStore.activeStep < items.length ? (
+                <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`} onClick={surveyStore.nextStepSurvey}>
+                  <p>Next</p>
+                </button>
+              ) : (
+                <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`}>
+                  Submit
+                </button>
+              )}
+              <div style={{ fontSize: "21px", fontWeight: "200" }}></div>
+            </div>
         </div>
+      }
       </div>
     );
   };
