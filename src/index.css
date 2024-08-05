@@ -1,4 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+
+@layer base {
+    @font-face {
+        font-family: PoppinsThin;
+        src: url('./assets/fonts/Poppins/Poppins-Thin.ttf');
+    }
+    @font-face {
+        font-family: PoppinsExtraLight;
+        src: url('./assets/fonts/Poppins/Poppins-ExtraLight.ttf');
+    }
+    @font-face {
+        font-family: PoppinsLight;
+        src: url('./assets/fonts/Poppins/Poppins-Light.ttf');
+    }
+    @font-face {
+        font-family: PoppinsRegular;
+        src: url('./assets/fonts/Poppins/Poppins-Regular.ttf');
+    }
+    @font-face {
+        font-family: PoppinsMedium;
+        src: url('./assets/fonts/Poppins/Poppins-Medium.ttf');
+    }   
+    @font-face {
+        font-family: PoppinsSemiBold;
+        src: url('./assets/fonts/Poppins/Poppins-SemiBold.ttf');
+    }
+    @font-face {
+        font-family: PoppinsBold;
+        src: url('./assets/fonts/Poppins/Poppins-Bold.ttf');
+    }
+    @font-face {
+        font-family: PoppinsExtraBold;
+        src: url('./assets/fonts/Poppins/Poppins-ExtraBold.ttf');
+    }
+    @font-face {
+        font-family: PoppinsBlack;
+        src: url('./assets/fonts/Poppins/Poppins-Black.ttf');
+    }
+
+}
+.animate__animated.animate__faster{
+    animation-duration: 0.25s;
+}

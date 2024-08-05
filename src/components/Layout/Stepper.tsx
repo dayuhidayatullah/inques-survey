@@ -19,7 +19,7 @@ const Stepper = ({ items }: { items: any }) => {
 
     
   const RenderForm = (props: any) => {
-    console.info(props, "<<< props");
+    // console.info(props, "<<< props");
     const Stats = ({
       currentStep,
       firstStep,
@@ -276,11 +276,11 @@ const Stepper = ({ items }: { items: any }) => {
   };
   const getContainerStepWizard = document.getElementsByClassName('rsw_2Y')
   useEffect(() => {
-    console.info(window.scrollY, '<<< apa dias')
+    // console.info(window.scrollY, '<<< apa dias')
     if(!getContainerStepWizard[0].className.includes('container')){
       getContainerStepWizard[0].classList.add('container')
     }
-    console.info(getContainerStepWizard[0].className, '<<< apa diasada')
+    // console.info(getContainerStepWizard[0].className, '<<< apa diasada')
   }, [window.scrollY, getContainerStepWizard])
   return (
     <main className="flex flex-col gap-[40px]  overflow-x-hidden mx-auto">

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Paging from '../components/Layout/Paging'
+import { useSurvey } from '../hooks/useSurvey';
+import { useParams } from 'react-router-dom';
 const tempData = [
     {
       type: "priority",
@@ -50,8 +52,13 @@ const tempData = [
     },
   ];
 const HomeClient = () => {
+  const surveyStore = useSurvey()
+  const { id } = useParams()
+  useEffect(() => {
+    surveyStore.getDataQuestion(id)
+  }, [])
   return (
-    <Paging items={tempData}/>
+    <Paging items={surveyStore?.questionList}/>
   )
 }
 

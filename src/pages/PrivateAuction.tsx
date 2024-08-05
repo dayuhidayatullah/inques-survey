@@ -1,38 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import axios from '../api/axios'
+import { useEffect, useState } from 'react'
+// import axios from '../api/axios'
+// import { AppContext } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom'
+import { useSurvey } from '../hooks/useSurvey'
 const PrivateAuction = () => {
-    const [dataAuction, setDataAuction] = useState([])
+    // const appStrore = useContext(AppContext)
+    const survetStore = useSurvey()
+    const navigate = useNavigate()
+    // const [dataAuction, setDataAuction] = useState([])
     useEffect(() => {
-        axios
-          .get("/auction/private", {
-            headers: { access_token: localStorage.access_token },
-          })
-          .then((data) => {
-            setDataAuction(data.data)
-            // console.info(data, '<<< data')
-          }).catch(err => {
-            // console.info(err)
-          })
+      survetStore?.getDataSurveyConfig()
+        // axios
+        //   .get("/private/auction", {
+        //     headers: { Authorization: appStrore?.userToken },
+        //   })
+        //   .then((data) => {
+            
+        //     setDataAuction(data.data)
+        //     // console.info(data, '<<< data')
+        //   }).catch(err => {
+        //     // console.info(err)
+        //   })
     }, [])
-    const onClickAuction = () => {
-      // console.info()
+    const onClickAuction = (data: any) => {
+      // appStrore?.setSurveySelected(data)
+      // console.info(window.location, '<<< location')
+      navigate(`${window.location.pathname}/survey/${data.config?.szQuestionId}`)
     }
   return (
-    <div className='flex p-10 my-auto'>
-        {dataAuction.map((el: {szDescQuestion: string, szIntroduction: string}) => {
+    <div className='flex gap-5 mt-10 h-full'>
+        {survetStore?.configList?.map((el: {szDescQuestion: string, config: any}) => {
             return (
-                <div className='max-w-[350px] border-2 rounded-lg '>
+                <div className='max-w-[350px] flex flex-col min-h-[350px] w-full h-full border-2 rounded-lg '>
                     <div className='bg-green-300 border-b-2 border-b-slate-400 py-4 px-3 text-center'>
-                        <p>{el.szDescQuestion}</p>
+                        <p className='font-semiBold text-[18px]'>{el.szDescQuestion}</p>
                     </div>
-                    <div className='flex flex-col p-5 gap-6'>
+                    <div className='grow p-5 gap-2 h-full flex flex-col justify-between'>
                       <div className='text-left'>
-                          <p className='font-medium'>
-                          {el.szIntroduction}
+                          <p className='font-regular text-[15px]'>
+                            {el?.config.szIntroduction}
                           </p>
                       </div>
-                      <div className='flex justify-end items-end relative bottom-0'>
-                          <button className='bg-blue-500 rounded-[10px] px-4 py-3 min-w-[100px] text-white hover:bg-gray-300 hover:text-black' onClick={(_)=> onClickAuction()}>Start</button>
+                      <div className='self-end relative bottom-0 gap-6'>
+                          <button className='bg-blue-500 rounded-[10px] px-4 py-3 min-w-[100px] text-white hover:bg-gray-300 hover:text-black' onClick={(_)=> onClickAuction(el)}>
+                            {el.config.bAllowUpdate === 1 ? "Start" : "Completed"}
+                            </button>
                       </div>
                     </div>
                 </div>

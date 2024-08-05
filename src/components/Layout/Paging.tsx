@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import SteperStrip from "../SteperStrip";
+import {  useEffect, useMemo, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSurvey } from "../../hooks/useSurvey";
+import StepWizard from "react-step-wizard";
+import { FaArrowRight } from "react-icons/fa6";
 import SelectionText from "../SelectionText";
 import SelectionImage from "../SelectionImage";
 import SelectionLikert from "../SelectionLikert";
@@ -8,287 +11,256 @@ import SelectionRating from "../SelectionRating";
 import Input from "../Input";
 import SelectionCheckbox from "../SelectionCheckbox";
 import SelectionPriority from "../SelectionPriority";
-import { FaArrowLeft } from "react-icons/fa6";
-import StepWizard from "react-step-wizard";
-import "animate.css";
+import UploadImage from "../UploadImage";
 import SelectionDate from "../SelectionDate";
-import { CgChevronDoubleDown, CgChevronDoubleUp } from "react-icons/cg";
-const Paging = ({ items }: { items: any }) => {
-  const [tempStep, setTempStep] = useState<number>(1);
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const RenderForm = (props: any) => {
-    console.info(props, "<<< props");
-    const Stats = ({
-      currentStep,
-      firstStep,
-      goToStep,
-      lastStep,
-      nextStep,
-      previousStep,
-      totalSteps,
-      step,
-    }: {
-      currentStep: number;
-      firstStep: () => void;
-      goToStep: (step: any) => void;
-      lastStep: () => void;
-      nextStep: () => void;
-      previousStep: () => void;
-      totalSteps: number;
-      step: number;
-    }) => (
-      <div>
-        {/* <hr /> */}
-        {step < totalSteps ? (
-          <button
-            className="bg-indigo-500 rounded-md w-40 p-4 mt-10"
-            onClick={nextStep}
-          >
-            <p>Next</p>
-          </button>
-        ) : (
-          <button
-            className="bg-indigo-500 rounded-md w-40 p-4 mt-10"
-            onClick={nextStep}
-          >
-            {}
-            Submit
-          </button>
-        )}
-        {/* <hr /> */}
-        <div style={{ fontSize: "21px", fontWeight: "200" }}>
-          {/* <h4>Other Functions</h4>
-                    <div>Current Step: {currentStep}</div>
-                    <div>Total Steps: {totalSteps}</div> */}
-          {/* <button className='btn btn-block btn-default' onClick={firstStep}>First Step</button>
-                    <button className='btn btn-block btn-default' onClick={lastStep}>Last Step</button> */}
+import SelectionSpeedo from "../SelectionSpeedo";
+import Instruction from "../Instruction";
+import Loading from "../Loading";
 
-          {/* <button className='btn btn-block btn-default' onClick={() => goToStep(2)}>Go to Step 2</button> */}
-        </div>
-      </div>
-    );
+const Paging = ({ items }: any) => {
+  const surveyStore = useSurvey();
+  const wizardRef = useRef(null);
+  const [showListDropdown, setShowListDropdown] = useState(false);
+  const [inputDropdown, setInputDropdown] = useState('');
+  const getHeight = useMemo(() => `${window.innerHeight - 151}px`, []);
+  const {id} = useParams()
+  useEffect(() => {
+    const getContainerStepWizard = document.getElementsByClassName("rsw_2Y");
+    if (getContainerStepWizard[0] && !getContainerStepWizard[0].className.includes("container")) {
+      getContainerStepWizard[0].classList.add("pe-[80px]", "ps-[80px]", "h-full", "max-w-[1000px]");
+    }
+  }, []);
+
+  useEffect(() => {
+    const questionActived = surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep);
+    if (questionActived?.Option.szAnswerStyleTypeId === 'Selection Image' || questionActived?.Option.szAnswerStyleTypeId === 'Selection ImageText') {
+      surveyStore.getSurveyOptionItemImages(questionActived?.szOptionId);
+    }
+  }, [surveyStore.activeStep]);
+
+  // const handleScroll = (event: any) => {
+  //   const { deltaY } = event;
+  //   const scrollTop = window.scrollY || window.pageYOffset;
+  //   const windowHeight = window.innerHeight;
+  //   const documentHeight = document.documentElement.scrollHeight;
+  //   const offset = 1;
+
+  //   if (scrollTop + windowHeight >= documentHeight - offset) {
+  //     setScrollBottomCount(prevCount => prevCount + 1);
+  //   }
+  // };
+
+  const handleKeyPress = (event: any) => {
+    if (!wizardRef.current) return;
+    if (event.key === 'Enter') {
+      wizardRef.current?.nextStep();
+    }
+  };
+
+  useEffect(() => {
+    console.info('berapa kali ke render  ???')
+    if(surveyStore?.activeStep === 1 && !localStorage?.answer){
+      localStorage.setItem('answer', "{}")
+    }
+    // window.addEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      // window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  // useEffect(() => {
+  //   // console.info(answer, '<<< answer')
+  //   console.info(surveyStore?.activeStep, '<<< activeStep')
+  // }, [surveyStore?.activeStep])
+  // const onSubmitForm = () => {
+  
+  // }
+  const handleSubmit = async () => {
+    const answer = localStorage.answer ? JSON.parse(localStorage.answer) : {}
+    const filterQuestion = surveyStore.questionList.reduce((acc: {file: string, shItem: number, szQuestionId: string, folderName: string}[], el) => {
+      if (el.szAnswerStyleId === 'Img-Image' && answer[el.shItem] !== undefined && answer[el.shItem] !== null) {
+        acc.push({
+          file: answer[el.shItem][0],
+          shItem: el.shItem,
+          szQuestionId: el.szQuestionId,
+          folderName: 'answerImage'
+        });
+      }
+      return acc;
+    }, []);
+    
+    try {
+      // filterQuestion.forEach(el => {
+      //   const uploadImage = await surveyStore?.uploadImageAnswer()
+      //   if(uploadImage?.status === 200){
+
+      //   }
+      // })
+      for (const el of filterQuestion) {
+        const uploadImage = await surveyStore.uploadImageAnswer(el);
+        if (uploadImage?.status === 200) {
+          answer[el.shItem] = uploadImage.data?.filePath.split('\\')?.[2]
+          
+          // console.info(uploadImage.data.filePath.split('\\')[2], '<M<<<< data')
+
+        } else {
+          throw `Failed to upload image for shItem ${el.shItem}`
+          
+        }
+      }
+      // submit form
+      const submitSurvey = await surveyStore?.postSubmitSurvey(JSON.stringify(answer), id)
+      if(submitSurvey.status === 201){
+        console.info(201)
+      }
+      // console.info(answer, '<<< answer')
+    } catch (error) {
+      console.info('masuk error', error)
+    }
+  }
+  // console.info()
+  const RenderForm = (props: any) => {
+    // console.info(props, '<<<< props')
+    useEffect(() => {
+      if (props.index === 0) {
+        surveyStore.setNextStepSurvey(() => props.nextStep);
+        surveyStore.setBackStepSurvey(() => props.previousStep);
+      }
+    }, [props]);
+    // if (props.index === 0) {
+    
+    //   surveyStore.setNextStepSurvey(() => props.nextStep);
+    //   surveyStore.setBackStepSurvey(() => props.previousStep);
+    // }
+
     const mappingQuestion = () => {
-      switch (props.type) {
-        case "priority":
-          return (
-            <>
-              <SelectionPriority />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "multiple":
-          return (
-            <>
-              <SelectionCheckbox />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
+      switch (props.szAnswerStyleId) {
+        case "Sel-Selection":
+          switch (props.Option?.szAnswerStyleTypeId) {
+            case "Selection Text":
+              return <SelectionText options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />;
+            case "Selection Likert":
+              return <SelectionLikert isRatingLikert={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />;
+            case "Selection Image":
+              return <SelectionImage text={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} optionItemImages={surveyStore.optionItemImages} />;
+            case "Selection ImageText":
+              return <SelectionImage text={true} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} optionItemImages={surveyStore.optionItemImages} />;
+            case "Selection Dropdown":
+              return <SelectionDropdown items={items} inputDropdownValue={inputDropdown} setInputDropdownValue={setInputDropdown} showListDropdown={showListDropdown} options={surveyStore.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} setShowListDropdown={setShowListDropdown} />;
+            // case "Selection Likert": 
+            // console.info('masuk likert')
+            //   return <SelectionLikert isRatingLikert={false} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
+            default:
+              return null;
+          }
+        case "Rat-Rating":
+          switch(props?.Option?.szAnswerStyleTypeId){
+            case 'Rating Star':
+              return <SelectionRating  options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems}/>
+            case 'Rating Likert':
+              return <SelectionLikert isRatingLikert={true} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
+            case 'Rating Speedo': 
+             return <SelectionSpeedo options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore.activeStep)?.Option.OptionItems} />
+            default: 
+            return null
+          }
+      
+        case "Pri-Prioritas":
+          return <SelectionPriority options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore?.activeStep)?.Option.OptionItems} />;
+        case "Mul-Multiple":
+          return <SelectionCheckbox options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore?.activeStep)?.Option.OptionItems} />;
         case "ratingStar":
-          return (
-            <>
-              <SelectionRating />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "selectionText":
-          return (
-            <>
-              <SelectionText />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
+          return <SelectionRating />;
+        case "Txt-FreeText":
+        case "Num-Number":
+        case "Prc-Percetage":
+        case "Nlc-NumberLogic":
+          return <Input isNumber={props.szAnswerStyleId !== 'Txt-FreeText'} isPercentage={props.szAnswerStyleId === 'Prc-Percetage'}   />;
+        case "Img-Image": 
+          return <UploadImage />
         case "likertRating":
-          return (
-            <>
-              <SelectionLikert isRatingLikert={true} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "dropdown":
-          return (
-            <>
-              <SelectionDropdown />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "input":
-          return (
-            <>
-              <Input isNumber={true} isPercentage={true} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "selectionImageText":
-          return (
-            <>
-              <SelectionImage text={true} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "selectionImage":
-          return (
-            <>
-              <SelectionImage text={false} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "likert":
-          return (
-            <>
-              <SelectionLikert isRatingLikert={false} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
-        case "date":
-          return (
-            <>
-              <SelectionDate dateYear={false} />
-              <Stats
-                step={props.index}
-                currentStep={props.currentStep}
-                firstStep={props.firstStep}
-                goToStep={props.goToStep}
-                lastStep={props.lastStep}
-                nextStep={props.nextStep}
-                previousStep={props.previousStep}
-                totalSteps={props.totalSteps}
-              />
-            </>
-          );
+          return <SelectionLikert isRatingLikert={true} options={surveyStore?.questionList?.find(el => el?.shItem === surveyStore?.activeStep)?.Option.OptionItems} />;
+        case "Dat-Date":
+        case "Day-DateYear":
+          return <SelectionDate dateYear={props.szAnswerStyleId === 'Day-DateYear' ? true : false}  />
+        default:
+          return null;
       }
     };
-    return (
-      <div>
-        <div className="flex items-center gap-10 ">
-          {activeStep > 1 && (
-            <FaArrowLeft
-              onClick={() => props.previousStep()}
-              className="font-semibold text-[30px] cursor-pointer"
-            />
-          )}
 
-          <p className="font-bold text-[40px]"> {props.question}</p>
-        </div>
-        <div className={`${activeStep > 1 ? "ml-[70px]" : ""} mt-[32px]`}>
-          <div className="description ">
-            <p className="">{props.description}</p>
+    return (
+      <div className="h-full w-full mx-auto step min-h-[600px] ">
+        {props.szAnswerStyleId !== 'Ins-Instruction' ? 
+        
+        <div className="pe-0 ps-0 w-full">
+          <div className="mx-auto text-start flex flex-col gap-5 w-full">
+            <div className="w-full flex-1">
+              <div className="flex gap-1 items-center mt-[3px] absolute mr-2" style={{ insetInlineEnd: '100%' }}>
+                <p className="font-medium text-[15px]">{surveyStore.activeStep}</p>
+                <FaArrowRight className="font-semibold text-[15px] text-center" />
+              </div>
+              <div className="description">
+                <p className="">{props.description}</p>
+              </div>
+              <p className="font-semiBold text-[20px]" dangerouslySetInnerHTML={{__html: props.szQuestion}} ></p>
+            </div>
+          
+            {mappingQuestion()}
+            
+            {
+              props?.Option?.szAnswerStyleTypeId !== 'Selection Dropdown' ? (
+              <div>
+                {surveyStore.activeStep < items.length ? (
+                  <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`} onClick={() => {
+                    console.info('klik inji')
+                    surveyStore.nextStepSurvey()}
+                  }>
+                    {/* {console.info(props, '<<< props')} */}
+                    <p>Next</p>
+                  </button>
+                ) : (
+                  <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`} onClick={() => {
+                    handleSubmit()
+                    // surveyStore?.postSubmitSurvey(localStorage.answer, id)
+                  }}>
+                    Submit
+                  </button>
+                )}
+                <div style={{ fontSize: "21px", fontWeight: "200" }}></div>
+              </div>
+              
+            ) : <></> 
+             }
           </div>
-          {mappingQuestion()}
+        </div>:
+        <div className="flex flex-col gap-10 items-center">
+        <Instruction instruction={props.szQuestion} />
+        <div>
+              {surveyStore.activeStep < items.length ? (
+                <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`} onClick={surveyStore.nextStepSurvey}>
+                  <p>Next</p>
+                </button>
+              ) : (
+                <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showListDropdown ? 'hidden' : 'block'}`}>
+                  Submit
+                </button>
+              )}
+              <div style={{ fontSize: "21px", fontWeight: "200" }}></div>
+            </div>
         </div>
+      }
       </div>
     );
   };
-  const getContainerStepWizard = document.getElementsByClassName("rsw_2Y");
-  useEffect(() => {
-    console.info(window.scrollY, "<<< apa dias");
-    if (!getContainerStepWizard[0].className.includes("container")) {
-      getContainerStepWizard[0].classList.add("container");
-    }
-    console.info(getContainerStepWizard[0].className, "<<< apa diasada");
-  }, [window.scrollY, getContainerStepWizard]);
-  const getHeight = screen.height - 105 + "px";
+
   return (
-    <main
-      className={`flex flex-col gap-[40px] overflow-x-hidden my-auto p-10 min-h-[${getHeight}]`}
-    >
-      {/* <div> */}
-      {/* <SteperStrip activeStep={activeStep} totalQuestion={items?.length} /> */}
-      {/* <FaArrowLeft className="font-semibold text-[30px] mt-12" /> */}
-      {/* </div> */}
+    <main className={`flex flex-col gap-[40px] my-auto pt-10 min-h-[${getHeight}] h-full vertical-stepper mb-[100px]`} style={{ minHeight: getHeight }}>
+      <Loading open={surveyStore?.isLoading} />
       <StepWizard
-        className="flex justify-center items-center max-[650px]:px-[15px]"
-        initialStep={tempStep}
-        onStepChange={(e) => setActiveStep(e.activeStep)}
+        className="mx-auto max-[650px]:px-[15px] max-w-[1000px] w-full"
+        initialStep={surveyStore.activeStep}
+        onStepChange={(e) => surveyStore.setActiveStep(e.activeStep)}
         transitions={{
           enterRight: "animate__animated animate__fadeInUpBig",
           enterLeft: "animate__animated animate__fadeInDownBig",
@@ -296,27 +268,14 @@ const Paging = ({ items }: { items: any }) => {
           exitLeft: "animate__animated animate__fadeOutUpBig",
           intro: "animate__animated animate__zoomInDown",
         }}
+        ref={wizardRef}
+        // isHashEnabled
+        isLazyMount
       >
-        {items.map((el: any, i: number) => {
-          // return <SelectionText />
-          return (
-            <RenderForm
-              type={el.type}
-              question={el.question}
-              description={el.description || ""}
-              index={i}
-            />
-          );
-        })}
+        {items.map((item: any, index:number) => (
+          <RenderForm key={index} index={index} {...item} />
+        ))}
       </StepWizard>
-      <div className="flex justify-end absolute bottom-0 right-0 top-0 z-10 flex-col h-[inherit]">
-        <div className="border-[1px] border-gray-300">
-          <CgChevronDoubleUp />
-        </div>
-        <div className="border-[1px] border-gray-300">
-          <CgChevronDoubleDown />
-        </div>
-      </div>
     </main>
   );
 };
