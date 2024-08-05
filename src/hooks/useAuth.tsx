@@ -17,11 +17,19 @@ interface AppContextProps {
 interface AuthContextProps {
   login: (data: {email: string, password: string}, isAdmin: boolean) => Promise<void>
   user?: string
+  logout: () => void
 }
-const AuthContext = createContext<AuthContextProps | null>(null)
+const AuthContext = createContext<AuthContextProps>({
+  login: async () => {},
+  user: '',
+  logout: () => {}
+})
 export const AuthProvider = ({children}: ChildProps) => {
     const  appStore = useContext<AppContextProps | null>(AppContext);
     const [isLoading, setLoading] = useState(false);
+    const clearLocalStorage = () => {
+      localStorage.clear();
+    };
     const login = async (data: {email: string, password: string},  isAdmin: boolean) => {
         try {
             setLoading(true)
@@ -41,6 +49,11 @@ export const AuthProvider = ({children}: ChildProps) => {
             throw new Error(error.response.data.message)
           }
     }
+    const logout = () => {
+      clearLocalStorage();
+      // logoutChannel.postMessage('Logout');
+      window.location.href = `/login`;
+    };
     const value = useMemo(
         () => ({
         //   clearLocalStorage,
@@ -48,6 +61,7 @@ export const AuthProvider = ({children}: ChildProps) => {
         //   handleSetUserId,
         //   hasPermission,
           login,
+          logout,
         //   logout,
         //   logoutChannel,
         //   logoutWithoutReload,

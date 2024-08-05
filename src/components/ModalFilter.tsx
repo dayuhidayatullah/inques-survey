@@ -3,6 +3,7 @@
 import React, { useRef, Fragment, ButtonHTMLAttributes } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { BsEmojiKiss } from "react-icons/bs";
+import { QuestionProps } from "../types/surveys";
 // import Image from "next/image";
 // import Avatar from "@/assets/avatar.jpeg";
 interface ValueFilter  {
@@ -10,7 +11,7 @@ interface ValueFilter  {
   setQuestionTypeValue: React.Dispatch<React.SetStateAction<string>>;
   questionTypeIdValue: string; 
   setQuestionTypeIdValue: React.Dispatch<React.SetStateAction<string>>;
- 
+  setSelectedQuestion: React.Dispatch<React.SetStateAction<QuestionTypeId | null>>
 }
 interface QuestionTypeId {
     bActive: string;
@@ -40,7 +41,7 @@ export default function ModalFilter({
   setIsOpen: Function;
   filterBySurvey: boolean;
   valueFilter: ValueFilter;
-  questionTypeIdList: QuestionTypeId[]
+  questionTypeIdList: QuestionTypeId[],
   }) {
   const completeButtonRef = useRef(null);
   function completeOrder() {
@@ -118,6 +119,7 @@ export default function ModalFilter({
                             onClick={(e) => {
                               // console.info(e.target.name, '<<<event ')
                               valueFilter.setQuestionTypeValue((e.target as HTMLTextAreaElement).name)
+                              valueFilter.setQuestionTypeIdValue('')
                             }}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:ring-offset-gray-800 focus:outline-none  dark:bg-gray-700 dark:border-gray-600"
                           />
@@ -154,6 +156,7 @@ export default function ModalFilter({
                             onClick={(e) => {
                               // console.info(e.target.name, '<<<event ')
                               valueFilter.setQuestionTypeIdValue((e.target as HTMLTextAreaElement).name)
+                              valueFilter.setSelectedQuestion(el)
                             }}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:ring-offset-gray-800 focus:outline-none  dark:bg-gray-700 dark:border-gray-600"
                           />

@@ -10,6 +10,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineChat } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
+import InquesLogo from '../assets/Inques_logo0-removebg-preview.png'
 // import { RxAvatar } from "react-icons/rx";
 // import Avatar from "../assets/avatar.jpeg";
 const Sidebar = () => {
@@ -20,12 +21,12 @@ const Sidebar = () => {
         <ul className="mb-4">
           <li className="flex gap-2 items-center pb-4">
             <img
-              src="https://static.thenounproject.com/png/1861811-200.png"
+              src={InquesLogo}
               alt="K"
-              width={30}
+              width={90}
               height={50}
             />
-            <h3 className="text-bold text">Kanva</h3>
+            {/* <h3 className="text-bold text">Kanva</h3> */}
           </li>
           <li>
             <Link to="Overview" className="flex gap-2 items-center pb-4">

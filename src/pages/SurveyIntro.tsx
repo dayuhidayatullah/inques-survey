@@ -35,7 +35,9 @@ const SurveyIntro = () => {
     //     await surveyStore?.getDataSurveyConfig()
     // }
     const handlePressEnter = (e: any) => {
-        navigate(`/survey/question/${id}/1`)
+        e.preventDefault()
+        // console.info(window.location)
+        navigate(`/private/survey/question/${id}`)
     }
   return (
     <form className='container flex flex-col items-center gap-6 mt-10' onSubmit={handlePressEnter} onKeyDown={(e: any) => { console.info(e, '<<<< eksksksk') }}>

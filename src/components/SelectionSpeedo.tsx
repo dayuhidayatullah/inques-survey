@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../style/selection-speedo.css';
+import { useSurvey } from '../hooks/useSurvey';
 
 interface OptionProps {
   bImageOption: number;
@@ -12,13 +13,18 @@ interface OptionProps {
 }
 
 const SelectionSpeedo = ({ options }: { options?: OptionProps[] }) => {
-  const [value, setValue] = useState(0);
-
+  const surveyStore = useSurvey()
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
+  const [value, setValue] = useState(getAnswer?.[surveyStore?.activeStep] || 0);
   // Calculate the rotation angle based on the value
   const calculateAngle = (value: number) => {
     return (value / (options?.length ?? 1)) * 180; // 180 degrees divided by the number of options
   };
-
+  const handleChange = (value: number) => {
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: value}
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
+    setValue(value)
+  }
   return (
     <>
       <div className="wrapper">
@@ -47,8 +53,9 @@ const SelectionSpeedo = ({ options }: { options?: OptionProps[] }) => {
           max={options?.length ? options.length : 0}
           value={value}
           onChange={(e) => {
-            const newValue = Number(e.target.value);
-            setValue(newValue);
+            handleChange(+e.target.value)
+            // const newValue = Number(e.target.value);
+            // setValue(newValue);
           }}
         />
       </div>

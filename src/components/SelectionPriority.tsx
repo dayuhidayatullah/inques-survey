@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { SortableList } from "./Draggable";
+import { useSurvey } from "../hooks/useSurvey";
 function createRange<T>(
   length: number,
   initializer: (index: number) => T
@@ -20,24 +21,36 @@ interface OptionProps {
   szValueId: string;
   szOption: string;
 }
-export default function SelectionPriorty({options}: {options: OptionProps[]}) {
+export default function SelectionPriorty({options}: {options?: OptionProps[]}) {
   // console.info(props, "<<< props");
-  const [items, setItems] = useState(options);
-  // useEffect(() => {
-  //   setItems(options)
-  // })
+  const surveyStore = useSurvey()
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
+  const [items, setItems] = useState(getAnswer[surveyStore?.activeStep] || options);
+  
+  useEffect(() => {
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: items}
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
+  },[items])
+  useEffect(() => {
+    
+    console.info(surveyStore?.activeStep, '<<< be')
+  },[surveyStore])
   return (
     <div>
-      <SortableList
-        items={items}
-        onChange={setItems}
-        renderItem={(item) => (
-          <SortableList.Item id={item.id}>
-            {item.szOption}
-            <SortableList.DragHandle />
-          </SortableList.Item>
-        )}
-      />
+      {
+        Array.isArray(items) ? 
+        <SortableList
+          items={items}
+          onChange={setItems}
+          renderItem={(item) => (
+            <SortableList.Item id={item.id}>
+              {item.szOption}
+              <SortableList.DragHandle />
+            </SortableList.Item>
+          )}
+        />:<></>
+
+      }
     </div>
   );
 }

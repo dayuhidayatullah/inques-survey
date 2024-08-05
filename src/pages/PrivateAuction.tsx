@@ -24,7 +24,8 @@ const PrivateAuction = () => {
     }, [])
     const onClickAuction = (data: any) => {
       // appStrore?.setSurveySelected(data)
-      navigate(`/survey/${data.config?.szQuestionId}`)
+      // console.info(window.location, '<<< location')
+      navigate(`${window.location.pathname}/survey/${data.config?.szQuestionId}`)
     }
   return (
     <div className='flex gap-5 mt-10 h-full'>

@@ -22,7 +22,6 @@ const SelectionLikert = ({ isRatingLikert, options }: { isRatingLikert: Boolean,
   );
   const surveyStore = useSurvey()
   // console.info(option,'<<< apasihhh pemai')
-  const {step} = useParams<{id: string, step: string}>()
   // const devideQuestionGrid = () => {
   //   if (temp.length % 2 === 0) return 2;
   //   if (temp.length % 3 === 0) return 3;
@@ -31,48 +30,63 @@ const SelectionLikert = ({ isRatingLikert, options }: { isRatingLikert: Boolean,
   // const questionMapper = () => {
   //   return (value: QuestionProps): QuestionProps => QuestionPro[]
   // }
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
   const handleOptionClick = (el: OptionProps, i: number) => {
     console.info(el.id, document.getElementById(`itemLikert${i}`)?.classList, '<<< apa dia')
 
-    if (step) {
-      surveyStore.setQuestionList(
-        surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
-          if (value.shItem === surveyStore.activeStep) {
-            if(value.answer === el.id){
-              return {
-                ...value,
-                answer: ''
-              }
-            } else {
-              return {
-                ...value,
-                answer: el.id
-              }
-            }
+    // if (step) {
+    //   surveyStore.setQuestionList(
+    //     surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
+    //       if (value.shItem === surveyStore.activeStep) {
+    //         if(value.answer === el.id){
+    //           return {
+    //             ...value,
+    //             answer: ''
+    //           }
+    //         } else {
+    //           return {
+    //             ...value,
+    //             answer: el.id
+    //           }
+    //         }
             
-          } 
-          return value
-        })
-      );
+    //       } 
+    //       return value
+    //     })
+    //   );
     
-    }
+    // }
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: getAnswer?.[el.id] === el.id ? '' : el.id}
+    setSelectQuestion(el.id)
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
     setTimeout(() => {
-      if(answer !== el.id){
-
+      if(getAnswer && getAnswer?.[el.id] !== el.id){
         surveyStore.nextStepSurvey()
       }
       
-    }, 400)
+    }, 500)
+    // setTimeout(() => {
+    //   if(answer !== el.id){
+
+    //     surveyStore.nextStepSurvey()
+    //   }
+      
+    // }, 400)
   };
+  useEffect(() => {
+    if(getAnswer?.[surveyStore?.activeStep]){
+      setSelectQuestion(getAnswer?.[surveyStore?.activeStep])
+    }
+  }, [])
   // const questionActive = useMemo(() => {
   //   // surveyStore.questionList.find((el: any) => )
   // }, [surveyStore.questionList])
-  const answer = useMemo(() => {
-    if(surveyStore.activeStep){
-      return surveyStore.questionList.find((el: any) => el.shItem === surveyStore.activeStep)?.answer
-    }
-    // console.info(surveyStore.activeStep, '<<<< apa dia coba')
-  }, [surveyStore.questionList, surveyStore.activeStep])
+  // const answer = useMemo(() => {
+  //   if(surveyStore.activeStep){
+  //     return surveyStore.questionList.find((el: any) => el.shItem === surveyStore.activeStep)?.answer
+  //   }
+  //   // console.info(surveyStore.activeStep, '<<<< apa dia coba')
+  // }, [surveyStore.questionList, surveyStore.activeStep])
   return (
     <div className={`container flex ${isRatingLikert ? "" : "gap-1"}  mt-3`}>
       {options?.map((el: OptionProps, i:number) => {
@@ -81,7 +95,7 @@ const SelectionLikert = ({ isRatingLikert, options }: { isRatingLikert: Boolean,
             id={`itemLikert${i}`}
             className={`
             cursor-pointer
-            ${answer === el.id ? 'animate__animated animate__flash animate__faster': ''
+            ${selectQuestion === el.id ? 'animate__animated animate__flash animate__faster': ''
             }
             ${
               isRatingLikert
@@ -91,7 +105,7 @@ const SelectionLikert = ({ isRatingLikert, options }: { isRatingLikert: Boolean,
                 : ""
             }
             ${!isRatingLikert ? "border-2 border-gray rounded-[6px] p-2" : ""}
-            p-6 ${answer === el.id ? "bg-indigo-500 text-white " : ""}
+            p-6 ${selectQuestion === el.id ? "bg-indigo-500 text-white " : ""}
             ${
               isRatingLikert
                 ? i === options.length - 1

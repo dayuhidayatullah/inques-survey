@@ -12,7 +12,8 @@ const ProtectedLayout = () => {
     const outlet = useOutlet()
     const surveyStore = useSurvey()
 
-    window.onload = async () => {
+    window.onload =  () => {
+      console.info(token, '<<< token')
       if (!token) {
         //   const me = await refreshMeData();
         //   if (me?.role?.toLowerCase() !== 'user') {
@@ -41,7 +42,6 @@ const ProtectedLayout = () => {
       className=" "
       // ref={refContainer}
       id={"container-root"}
-      onScroll={() => console.info('<<<< onSCROLLL')}
     >
       <Header />
       <div className="container mx-auto">{outlet}</div>

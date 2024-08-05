@@ -3,20 +3,33 @@ import DatePicker, { DatePickerProps } from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { Portal } from "react-overlays";
+import { useSurvey } from "../hooks/useSurvey";
 
 // import "react-datepicker/dist/react-datepicker.css";
 
-interface IProps {
-  chidren: JSX.Element;
-}
-const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
-  const [selectedDate, setSelectedDate] = useState<any>(null);
-  const CalendarContainer = ({ children }: any) => {
-    const el = document.getElementById("container-root");
-    // console.info(el, "<<<< element");
+// interface IProps {
+//   chidren: JSX.Element;
+// }
+type ValuePiece = Date | null;
+type Range<T> = [T, T];
+ type Value = ValuePiece | Range<ValuePiece>;
 
-    return <Portal container={el}>{children}</Portal>;
-  };
+const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
+  const surveyStore = useSurvey()
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
+  const [selectedDate, setSelectedDate] = useState<Value>(getAnswer[surveyStore?.activeStep] || null);
+console.info(selectedDate, getAnswer, surveyStore?.activeStep, '<<<< date selected')
+  // const CalendarContainer = ({ children }: any) => {
+  //   const el = document.getElementById("container-root");
+  //   // console.info(el, "<<<< element");
+
+  //   return <Portal container={el}>{children}</Portal>;
+  // };
+  const handleDateChange = (value: Value) => {
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: value}
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
+    setSelectedDate(value)
+  }
   return (
     <div className="mt-6">
       {/* <input type={"date"} /> */}
@@ -30,7 +43,7 @@ const SelectionDate = ({ dateYear }: { dateYear: boolean }) => {
         // view={'v'}
         autoFocus
         onChange={(e) => {
-          setSelectedDate(e);
+          handleDateChange(e);
         }}
         // portalContainer={CalendarContainer}
         value={selectedDate}

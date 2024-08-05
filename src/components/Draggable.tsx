@@ -129,10 +129,10 @@ export function SortableList<T extends OptionProps>({
   onChange,
   renderItem,
 }: PropsSortableItems<T>) {
+  console.info(items, '<<<< items')
   const [active, setActive] = useState<Active | null>(null);
-  console.info(active, items, '<<< activeItem')
   const activeItem = useMemo(
-    () => items.find((item) => item.id === active?.id),
+    () => items?.find((item) => item.id === active?.id),
     [active, items]
   );
   const sensors = useSensors(

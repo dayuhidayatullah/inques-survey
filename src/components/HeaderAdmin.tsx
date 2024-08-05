@@ -6,7 +6,7 @@ export default function HeaderAdmin({onClickFilter}: {onClickFilter: Function}) 
   return (
     <div className='w-full'>
       <div className='w-full flex justify-between px-5 h-16 items-center mt-1'>
-        <p className='text-xl font-semibold'>Header</p>
+        <p className='text-xl font-semibold'></p>
         <div className='flex gap-4'>
           <label className='relative text-gray-400 focus-within:text-gray-600 block '>
             <CiSearch

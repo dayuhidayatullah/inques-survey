@@ -1,11 +1,14 @@
 // import { useLocalStorage } from '@uidotdev/usehooks'
-import axios, {Method, AxiosResponse} from 'axios'
+import Axios from 'axios'
 import { tokenString } from '../helpers/Constants'
-const api = axios.create({
+const axios = Axios.create({
     baseURL: 'http://localhost:3000',
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-    }
 })
+axios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem(tokenString);
+    config.headers.Authorization = `Bearer ${token?.replaceAll('"', '')}`;
+  
+    return config;
+  });
 // const request = (method: Method, url: string, )
-export default api
+export default axios

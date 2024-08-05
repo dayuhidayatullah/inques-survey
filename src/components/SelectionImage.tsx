@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSurvey } from "../hooks/useSurvey";
 import { QuestionProps } from "../types/surveys";
 import { FaCheck } from "react-icons/fa6";
@@ -27,45 +27,61 @@ const SelectionImage = ({ text, options, optionItemImages }: { text: Boolean, op
     null
   );
   const surveyStore = useSurvey()
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
   const handleOptionClick = (el: OptionProps, i: number) => {
     // console.info(el.id, document.getElementById(`itemLikert${i}`)?.classList, '<<< apa dia')
-    if (surveyStore.activeStep) {
-      surveyStore.setQuestionList(
-        surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
-          if (value.shItem === surveyStore.activeStep) {
-            if(value.answer === el.id){
-              return {
-                ...value,
-                answer: ''
-              }
-            } else {
-              return {
-                ...value,
-                answer: el.id
-              }
-            }
+    // if (surveyStore.activeStep) {
+    //   surveyStore.setQuestionList(
+    //     surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
+    //       if (value.shItem === surveyStore.activeStep) {
+    //         if(value.answer === el.id){
+    //           return {
+    //             ...value,
+    //             answer: ''
+    //           }
+    //         } else {
+    //           return {
+    //             ...value,
+    //             answer: el.id
+    //           }
+    //         }
             
-          } 
-          return value
-        })
-      );
+    //       } 
+    //       return value
+    //     })
+    //   );
     
-    }
+    // }
+    setSelectQuestion(el.id)
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: getAnswer?.[el.id] === el.id ? '' : el.id}
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
     setTimeout(() => {
-      if(answer !== el.id){
+      if(getAnswer && getAnswer?.[el.id] !== el.id){
 
         surveyStore.nextStepSurvey()
       }
       
-    }, 500)
+    }, 400)
+    // setTimeout(() => {
+    //   if(answer !== el.id){
+
+    //     surveyStore.nextStepSurvey()
+    //   }
+      
+    // }, 500)
   };
-  const answer = useMemo(() => {
-    if(surveyStore.activeStep){
-      return surveyStore.questionList.find((el: any) => el.shItem === surveyStore.activeStep)?.answer
-    }
-    // console.info(surveyStore.activeStep, '<<<< apa dia coba')
-  }, [surveyStore.questionList, surveyStore.activeStep])
+  // const answer = useMemo(() => {
+  //   if(surveyStore.activeStep){
+  //     return surveyStore.questionList.find((el: any) => el.shItem === surveyStore.activeStep)?.answer
+  //   }
+  //   // console.info(surveyStore.activeStep, '<<<< apa dia coba')
+  // }, [surveyStore.questionList, surveyStore.activeStep])
   // console.info(optionItemImages, '<<<< optionItemImage')
+  useEffect(() => {
+    if(getAnswer?.[surveyStore?.activeStep]){
+      setSelectQuestion(getAnswer?.[surveyStore?.activeStep])
+    }
+  }, [])
   return (
     <div
     className="container grid grid-cols-2 max-[900px]:grid-cols-2 max-[650px]:grid-cols-1 gap-3"
@@ -73,7 +89,7 @@ const SelectionImage = ({ text, options, optionItemImages }: { text: Boolean, op
     {options?.map((el, i) => (
       <div
         key={i}
-        className={`relative border-[2px] ${surveyStore?.questionList?.find((value: any) => value.shItem === surveyStore.activeStep)?.answer === el.id ? 'container-selection-image' : ''} ${
+        className={`relative border-[2px] ${selectQuestion === el.id ? 'container-selection-image' : ''} ${
           selectQuestion === el.id ? "border-indigo-500" : "border-gray-500"
         } w-full min-h-[300px] h-[300px] p-2 cursor-pointer ${
           el.id === selectQuestion ? "bg-gray-300" : ""
@@ -108,7 +124,7 @@ const SelectionImage = ({ text, options, optionItemImages }: { text: Boolean, op
             </p>
           </div>
         )}
-        {surveyStore?.questionList?.find((value: any) => value.shItem === surveyStore.activeStep)?.answer === el.id  && (
+        {selectQuestion === el.id  && (
           <div className="absolute w-[48px] h-[48px] rounded-se-[4px] overflow-hidden flex container-checklist-image" style={{insetInlineEnd: '0px', insetBlockStart: '0px', zIndex: '1px'}}>
             <div className="absolute" style={{insetInlineEnd: '6px', insetBlockStart: '7px'}}>
               <FaCheck className="text-white font-semiBold" />

@@ -17,80 +17,102 @@ const SelectionDropdown = ({
   setShowListDropdown,
   showListDropdown,
   inputDropdownValue,
-  setInputDropdownValue
+  setInputDropdownValue,
+  items
 }: {
   options?: IOptionItems[];
   setShowListDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   showListDropdown: boolean;
   inputDropdownValue: string;
   setInputDropdownValue: React.Dispatch<React.SetStateAction<string>>
+  items: any
 }) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(showListDropdown);
   const [filteredOptions, setFilteredOptions] = useState<IOptionItems[] | undefined>(options);
   const surveyStore = useSurvey();
   const refInput = useRef<HTMLInputElement>(null);
   const timeout = useRef<number | null>(null);  // Use number instead of NodeJS.Timeout
-  const [searchValue, setSearchValue] = useState(inputDropdownValue);
+  const [searchValue, setSearchValue] = useState<string | undefined>(inputDropdownValue);
+  const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
 
   const handleOptionClick = (el: OptionProps, i: number) => {
-    if (surveyStore.activeStep) {
-      surveyStore.setQuestionList(
-        surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
-          if (value.shItem === surveyStore.activeStep) {
-            console.info('gamasuk if if else', value, value.answer === el.id, el.szOption)
-            if (value.answer === el.id) {
-              setInputDropdownValue('')
-              setSearchValue('')
-              return {
-                ...value,
-                answer: '',
-              };
-            }
+    // if (surveyStore.activeStep) {
+    //   surveyStore.setQuestionList(
+    //     surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
+    //       if (value.shItem === surveyStore.activeStep) {
+    //         // console.info('gamasuk if if else', value, value.answer === el.id, el.szOption)
+    //         if (value.answer === el.id) {
+    //           setInputDropdownValue('')
+    //           setSearchValue('')
+    //           return {
+    //             ...value,
+    //             answer: '',
+    //           };
+    //         }
             
-            else {
-              setInputDropdownValue(el.szOption)
-              setSearchValue(el.szOption)
-              return {
-                ...value,
-                answer: el.id,
-              };
-            }
-          }
-          return value;
-        })
-      );
-    }
+    //         else {
+    //           setInputDropdownValue(el.szOption)
+    //           setSearchValue(el.szOption)
+    //           return {
+    //             ...value,
+    //             answer: el.id,
+    //           };
+    //         }
+    //       }
+    //       return value;
+    //     })
+    //   );
+    // }
     // setShowDropdown(false)
     setShowListDropdown(false)
-    console.info(el, )
+    // console.info(el, )
+    if(el.szOption === searchValue){
+      setSearchValue('')
+    } else {
+      setSearchValue(el.szOption)
+      
+    }
+    const updatedAnswer = {...getAnswer, [surveyStore?.activeStep]: getAnswer?.[el.id] === el.id ? '' : el.id}
+    localStorage.setItem('answer', JSON.stringify(updatedAnswer))
     setTimeout(() => {
-      if (answer !== el.id) {
-        // surveyStore.nextStepSurvey();
+      if(getAnswer && getAnswer?.[el.id] !== el.id){
+
+        // surveyStore.nextStepSurvey()
       }
-    }, 400);
+      
+    }, 400)
+    // setTimeout(() => {
+    //   if (answer !== el.id) {
+    //     // surveyStore.nextStepSurvey();
+    //   }
+    // }, 400);
   };
 
-  const answer = useMemo(() => {
-    if (surveyStore.activeStep) {
-      return surveyStore.questionList.find(
-        (el) => el.shItem === surveyStore.activeStep
-      )?.answer;
-    }
-  }, [surveyStore.questionList, surveyStore.activeStep]);
+  // const answer = useMemo(() => {
+  //   if (surveyStore.activeStep) {
+  //     return surveyStore.questionList.find(
+  //       (el) => el.shItem === surveyStore.activeStep
+  //     )?.answer;
+  //   }
+  // }, [surveyStore.questionList, surveyStore.activeStep]);
 
   useEffect(() => {
-    console.info(inputDropdownValue, '<<< inputDropdown value')
+    // console.info(inputDropdownValue, '<<< inputDropdown value')
     if (options) {
       if (searchValue) {
+        console.info(searchValue, '<<< searchValue')
         setFilteredOptions(options.filter((value) => value?.szOption?.toLowerCase()?.includes(searchValue?.toLowerCase())));
       } else {
         setFilteredOptions(options);
       }
     }
   }, [options, searchValue]);
-  // useEffect(() => {
-  //   setSearchValue(inputDropdownValue);
-  // }, [inputDropdownValue]);
+  useEffect(() => {
+    if(getAnswer?.[surveyStore?.activeStep]){
+      console.info('ini jalan')
+      setSearchValue(options?.find((value) => value?.id === getAnswer?.[surveyStore?.activeStep])?.szOption)
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -102,7 +124,7 @@ const SelectionDropdown = ({
                 clearTimeout(timeout.current);
               }
               setShowDropdown(true);
-              setShowListDropdown(true);
+              // setShowListDropdown(true);
             }}
             onBlur={() => {
               if (timeout.current) {
@@ -110,9 +132,10 @@ const SelectionDropdown = ({
               }
               timeout.current = window.setTimeout(() => {
                 setShowDropdown(false);
-                setShowListDropdown(false);
+                // setShowListDropdown(false);
               }, 200);
             }}
+            autoComplete="off"
             value={searchValue}
             ref={refInput}
             id="inputDropdown"
@@ -185,6 +208,19 @@ const SelectionDropdown = ({
             </ul>
           </div>
         </div>
+      </div>
+      <div>
+        {surveyStore.activeStep < items.length ? (
+          <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showDropdown ? 'hidden' : 'block'}`} onClick={() => surveyStore.nextStepSurvey()}>
+            {/* {console.info(props, '<<< props')} */}
+            <p>Next</p>
+          </button>
+        ) : (
+          <button className={`bg-indigo-500 rounded-md w-40 p-4 mt-10 ${showDropdown ? 'hidden' : 'block'}`}>
+            Submit
+          </button>
+        )}
+        <div style={{ fontSize: "21px", fontWeight: "200" }}></div>
       </div>
     </div>
   );

@@ -185,3 +185,7 @@
     /* pointer-events: none; Disable interactions Make it look disabled */
     /* display: none; */
   }
+  .react-date-picker__wrapper{
+    border-bottom: none !important;
+    border: none !important;
+  }
