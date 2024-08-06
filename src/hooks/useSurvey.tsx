@@ -1,4 +1,4 @@
-import { createContext,useContext, useMemo, useState } from "react";
+import { createContext,useContext, useState } from "react";
 import axios from '../api/axios'
 import { AppContext } from "../context/AppContext";
 import { QuestionProps, SurveyConfigProps } from "../types/surveys";
@@ -8,11 +8,11 @@ interface ChildProps {
 }
 interface AppContextProps {
   userToken: string
-  setUserToken: React.Dispatch<React.SetStateAction<boolean>>
+  setUserToken: React.Dispatch<React.SetStateAction<string>>
   nextStepSurvey: () => void
   backStepSurvey: () => void
-  setNextStepSurvey: React.Dispatch<React.SetStateAction<boolean>>
-  setBackStepSurvey: React.Dispatch<React.SetStateAction<boolean>>
+  setNextStepSurvey: React.Dispatch<React.SetStateAction<() => void>>
+  setBackStepSurvey: React.Dispatch<React.SetStateAction<() => void>>
 }
 interface OptionItemImages {
   id: number

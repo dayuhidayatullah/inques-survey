@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useSurvey } from "../hooks/useSurvey";
-import { QuestionProps } from "../types/surveys";
+// import { QuestionProps } from "../types/surveys";
 import { FaCheck } from "react-icons/fa6";
 
 
@@ -22,13 +22,13 @@ interface OptionItemImages {
 }
 const SelectionImage = ({ text, options, optionItemImages }: { text: Boolean, options?: OptionProps[], optionItemImages: OptionItemImages[] }) => {
   const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
-  const temp = Array.from(alphabet.slice(0, 9).values());
+  // const temp = Array.from(alphabet.slice(0, 9).values());
   const [selectQuestion, setSelectQuestion] = useState<Number | string | null>(
     null
   );
   const surveyStore = useSurvey()
   const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
-  const handleOptionClick = (el: OptionProps, i: number) => {
+  const handleOptionClick = (el: OptionProps) => {
     // console.info(el.id, document.getElementById(`itemLikert${i}`)?.classList, '<<< apa dia')
     // if (surveyStore.activeStep) {
     //   surveyStore.setQuestionList(
@@ -94,7 +94,7 @@ const SelectionImage = ({ text, options, optionItemImages }: { text: Boolean, op
         } w-full min-h-[300px] h-[300px] p-2 cursor-pointer ${
           el.id === selectQuestion ? "bg-gray-300" : ""
         } rounded-lg hover:bg-gray-300 flex flex-col`}
-        onClick={() => handleOptionClick(el, i)}
+        onClick={() => handleOptionClick(el)}
       >
         <img
           className="rounded-lg bg-contain bg-no-repeat object-contain w-full flex-grow max-h-[280px]"

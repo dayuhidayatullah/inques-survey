@@ -105,9 +105,9 @@ function DragHandle() {
   );
 }
 
-interface BaseItem {
-  id: UniqueIdentifier;
-}
+// interface BaseItem {
+//   id: UniqueIdentifier;
+// }
 interface OptionProps {
   bImageOption: number;
   decOptionScore: string;
@@ -129,7 +129,7 @@ export function SortableList<T extends OptionProps>({
   onChange,
   renderItem,
 }: PropsSortableItems<T>) {
-  console.info(items, '<<<< items')
+  // console.info(items, '<<<< items')
   const [active, setActive] = useState<Active | null>(null);
   const activeItem = useMemo(
     () => items?.find((item) => item.id === active?.id),

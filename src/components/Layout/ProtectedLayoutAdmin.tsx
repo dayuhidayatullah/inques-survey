@@ -1,17 +1,17 @@
-import { useOutlet, Outlet } from "react-router-dom";
-import Header from "../Header";
-import { IoIosArrowDown , IoIosArrowUp } from "react-icons/io";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../context/AppContext";
-import { useSurvey } from "../../hooks/useSurvey";
+import { Outlet } from "react-router-dom";
+// import Header from "../Header";
+// import { IoIosArrowDown , IoIosArrowUp } from "react-icons/io";
+import { useState } from "react";
+// import { AppContext } from "../../context/AppContext";
+// import { useSurvey } from "../../hooks/useSurvey";
 import Sidebar from "../Sidebar";
 import HeaderAdmin from "../HeaderAdmin";
 
 const ProtectedLayoutAdmin = () => {
     const token = localStorage.access_token
-    const outlet = useOutlet()
+    // const outlet = useOutlet()
     const [isOpenModalFilter, setIsOpenModalFilter] = useState(false)
-    const surveyStore = useSurvey()
+    // const surveyStore = useSurvey()
     // console.info(outlet, '<<<< apa dia ????')
     window.onload = async () => {
       if (!token) {

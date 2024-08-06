@@ -1,5 +1,5 @@
 // import { Box } from '@mui/system';
-import React from 'react';
+// import React from 'react';
 import { Pie } from 'react-chartjs-2';
 // import PropTypes from 'prop-types';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -26,7 +26,7 @@ const PieChart = ({
 //   refChart,
   legendClassName,
   className,
-  layoutWidth = 100,
+  // layoutWidth = 100,
 } : Props) => {
   const getOrCreateLegendList = (_: any, id: any) => {
     const legendContainer = document.getElementById(id);

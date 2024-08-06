@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import  { useCallback, useEffect, useState } from "react";
 import { useSurvey } from "../hooks/useSurvey";
-import { QuestionProps } from "../types/surveys";
-import { debounce } from "lodash";
+// import { QuestionProps } from "../types/surveys";
+// import { debounce } from "lodash";
 
 const Input = ({
   isNumber,

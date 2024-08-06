@@ -3,8 +3,8 @@
 import { useOutlet } from "react-router-dom";
 import Header from "../Header";
 import { IoIosArrowDown , IoIosArrowUp } from "react-icons/io";
-import { useContext, useEffect } from "react";
-import { AppContext } from "../../context/AppContext";
+// import { useContext, useEffect } from "react";
+// import { AppContext } from "../../context/AppContext";
 import { useSurvey } from "../../hooks/useSurvey";
 
 const ProtectedLayout = () => {

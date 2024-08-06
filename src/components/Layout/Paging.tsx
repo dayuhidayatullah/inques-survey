@@ -17,9 +17,13 @@ import SelectionSpeedo from "../SelectionSpeedo";
 import Instruction from "../Instruction";
 import Loading from "../Loading";
 
+interface WizardRefProps  {
+  nextStep: () => void
+}
+
 const Paging = ({ items }: any) => {
   const surveyStore = useSurvey();
-  const wizardRef = useRef(null);
+  const wizardRef = useRef<WizardRefProps>(null);
   const [showListDropdown, setShowListDropdown] = useState(false);
   const [inputDropdown, setInputDropdown] = useState('');
   const getHeight = useMemo(() => `${window.innerHeight - 151}px`, []);
@@ -112,7 +116,7 @@ const Paging = ({ items }: any) => {
       // submit form
       const submitSurvey = await surveyStore?.postSubmitSurvey(JSON.stringify(answer), id)
       if(submitSurvey.status === 201){
-        console.info(201)
+        
       }
       // console.info(answer, '<<< answer')
     } catch (error) {
@@ -255,7 +259,7 @@ const Paging = ({ items }: any) => {
   };
 
   return (
-    <main className={`flex flex-col gap-[40px] my-auto pt-10 min-h-[${getHeight}] h-full vertical-stepper mb-[100px]`} style={{ minHeight: getHeight }}>
+    <main className={`flex flex-col gap-[40px] my-auto pt-10 min-h-[${getHeight}] h-full vertical-stepper mb-[100px]`} style={{ minHeight: getHeight }} ref={}>
       <Loading open={surveyStore?.isLoading} />
       <StepWizard
         className="mx-auto max-[650px]:px-[15px] max-w-[1000px] w-full"
@@ -279,5 +283,6 @@ const Paging = ({ items }: any) => {
     </main>
   );
 };
+
 
 export default Paging;

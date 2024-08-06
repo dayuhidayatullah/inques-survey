@@ -1,9 +1,9 @@
 // import React from 'react'
 "use client";
-import React, { useRef, Fragment, ButtonHTMLAttributes } from "react";
+import React, {  Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { BsEmojiKiss } from "react-icons/bs";
-import { QuestionProps } from "../types/surveys";
+// import { BsEmojiKiss } from "react-icons/bs";
+// import { QuestionProps } from "../types/surveys";
 // import Image from "next/image";
 // import Avatar from "@/assets/avatar.jpeg";
 interface ValueFilter  {
@@ -43,10 +43,10 @@ export default function ModalFilter({
   valueFilter: ValueFilter;
   questionTypeIdList: QuestionTypeId[],
   }) {
-  const completeButtonRef = useRef(null);
-  function completeOrder() {
-    // ...
-  }
+  // const completeButtonRef = useRef(null);
+  // function completeOrder() {
+  //   // ...
+  // }
   const questionType = [{
     id: 1,
     name: 'SURVEY'

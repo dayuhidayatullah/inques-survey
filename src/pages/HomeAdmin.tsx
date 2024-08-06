@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ModalFilter from '../components/ModalFilter'
 import { useOutletContext } from 'react-router-dom'
 import axios from '../api/axios'
@@ -30,8 +30,8 @@ const HomeAdmin = () => {
     const [selectedQuestion, setSelectedQuestion] = useState<QuestionListProps | null>(null)
     const [sumScore, setSumScore] = useState([])
     const [scoreTotal, setScoreTotal] = useState(0)
-    const [sumScoreByDate, setSumScoreByDate] = useState([])
-    const [totalVotes, setTotalVotes] = useState([])
+    const [, setSumScoreByDate] = useState([])
+    const [, setTotalVotes] = useState([])
     const getListQuestionType = useCallback(async () => {
       try {
         const result = await axios.get(`/admin/question/listQuestionByType/${questionTypeValue}`);

@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSurvey } from "../hooks/useSurvey";
-import { IOptionItems, QuestionProps } from "../types/surveys";
+import { IOptionItems } from "../types/surveys";
 
 interface OptionProps {
   bImageOption: number;
@@ -17,7 +17,7 @@ const SelectionDropdown = ({
   setShowListDropdown,
   showListDropdown,
   inputDropdownValue,
-  setInputDropdownValue,
+  // setInputDropdownValue,
   items
 }: {
   options?: IOptionItems[];
@@ -35,7 +35,7 @@ const SelectionDropdown = ({
   const [searchValue, setSearchValue] = useState<string | undefined>(inputDropdownValue);
   const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
 
-  const handleOptionClick = (el: OptionProps, i: number) => {
+  const handleOptionClick = (el: OptionProps) => {
     // if (surveyStore.activeStep) {
     //   surveyStore.setQuestionList(
     //     surveyStore.questionList.map((value: QuestionProps): QuestionProps => {
@@ -192,10 +192,10 @@ const SelectionDropdown = ({
                 paddingBlockEnd: '16px',
               }}
             >
-              {filteredOptions?.map((el, i) => (
+              {filteredOptions?.map((el) => (
                 <li
                   key={el.id}
-                  onClick={() => handleOptionClick(el, i)}
+                  onClick={() => handleOptionClick(el)}
                   className="relative flex items-center rounded-[20px] pb-1 mb-[4px] shadow-[rgba(93,152,219,0.6)] h-[inherit] max-w-full min-h-[40px] outline-0 pointer w-full opacity-[1] bg-[#f0efeb] hover:bg-[#f5ebe0] cursor-pointer"
                 >
                   <div className="w-full min-w-[100px] flex items-center flex-1 text-start pl-[16px]">

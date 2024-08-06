@@ -1,8 +1,8 @@
-import { FunctionComponent, useState } from "react";
-import DatePicker, { DatePickerProps } from "react-date-picker";
+import {  useState } from "react";
+import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import { Portal } from "react-overlays";
+// import { Portal } from "react-overlays";
 import { useSurvey } from "../hooks/useSurvey";
 
 // import "react-datepicker/dist/react-datepicker.css";

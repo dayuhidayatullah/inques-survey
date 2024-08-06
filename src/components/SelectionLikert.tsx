@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSurvey } from "../hooks/useSurvey";
-import { QuestionProps } from "../types/surveys";
-import { useParams } from "react-router-dom";
+// import { QuestionProps } from "../types/surveys";
+// import { useParams } from "react-router-dom";
 
 interface OptionProps {
   bImageOption: number

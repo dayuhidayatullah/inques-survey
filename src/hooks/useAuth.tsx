@@ -1,18 +1,18 @@
 import { createContext,useContext, useMemo, useState } from "react";
 import axios from '../api/axios'
 import { AppContext } from "../context/AppContext";
-import useLocalStorage from '../hooks/useLocalStorage';
+// import useLocalStorage from '../hooks/useLocalStorage';
 
 interface ChildProps {
   children: JSX.Element
 }
 interface AppContextProps {
   userToken: string
-  setUserToken: React.Dispatch<React.SetStateAction<boolean>>
+  setUserToken: React.Dispatch<React.SetStateAction<string>>
   nextStepSurvey: () => void
   backStepSurvey: () => void
-  setNextStepSurvey: React.Dispatch<React.SetStateAction<boolean>>
-  setBackStepSurvey: React.Dispatch<React.SetStateAction<boolean>>
+  setNextStepSurvey: React.Dispatch<React.SetStateAction<() => void>>
+  setBackStepSurvey: React.Dispatch<React.SetStateAction<() => void>>
 }
 interface AuthContextProps {
   login: (data: {email: string, password: string}, isAdmin: boolean) => Promise<void>

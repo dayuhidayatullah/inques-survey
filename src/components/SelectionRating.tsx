@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { CiStar } from "react-icons/ci";
+import  { useState } from "react";
+// import { CiStar } from "react-icons/ci";
 import { HiOutlineStar } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
 import { useSurvey } from "../hooks/useSurvey";
 import { IOptionItems } from "../types/surveys";
 
 const SelectionRating = ({options}: {options?: IOptionItems[]}) => {
-  const temp = Array.from(Array(5).keys());
+  // const temp = Array.from(Array(5).keys());
   const surveyStore = useSurvey()
   const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
   const [selectRating, setSelectRating] = useState<number>(getAnswer?.[surveyStore?.activeStep] || -1);
@@ -23,7 +23,7 @@ const SelectionRating = ({options}: {options?: IOptionItems[]}) => {
   }
   return (
     <div className="container flex gap-3 cursor-pointer">
-      {options?.map((el, i) => {
+      {options?.map((el) => {
         return (
           <>
             {el.id <= selectRating ? (

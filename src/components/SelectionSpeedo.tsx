@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import '../style/selection-speedo.css';
 import { useSurvey } from '../hooks/useSurvey';
 

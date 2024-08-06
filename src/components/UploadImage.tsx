@@ -1,11 +1,14 @@
-import React, { useRef, useState, ChangeEvent } from 'react'
+import  { useRef, useState, ChangeEvent } from 'react'
 import { SlCloudUpload } from "react-icons/sl";
 import { useSurvey } from '../hooks/useSurvey';
 
 type Base64File = string
+// interface RefInputProps {
+//   click: () => void
+// }
 const UploadImage = () => {
-  const refInput = useRef(null)
-  const [valueImage, setValueImage] = useState<FileList | null>(null)
+  const refInput = useRef<HTMLInputElement>(null)
+  // const [valueImage, setValueImage] = useState<FileList | null>(null)
   const surveyStore = useSurvey()
   const getAnswer = localStorage?.answer ? JSON.parse(localStorage?.answer) : ''
   const [base64Files, setBase64Files] = useState<Base64File[]>(getAnswer?.[surveyStore?.activeStep] || []);
@@ -35,7 +38,7 @@ const UploadImage = () => {
   console.info(base64Files)
   return (
     <div className='container'>
-            <div className='border-[2px] border-dashed border-[rgba(255, 255, 255, 0.8)] min-h-[300px] min-w-[720px] bg-gray-100 flex justify-center items-center cursor-pointer' onClick={() => refInput.current.click()}>
+            <div className='border-[2px] border-dashed border-[rgba(255, 255, 255, 0.8)] min-h-[300px] min-w-[720px] bg-gray-100 flex justify-center items-center cursor-pointer' onClick={() => refInput.current?.click()}>
                 <div className='flex flex-col items-center gap-[10px]'>
                     {/* <div className='w-[200px]'> */}
                     {base64Files.length ? 

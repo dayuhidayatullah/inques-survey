@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { AppContext } from '../context/AppContext'
+import  { useEffect } from 'react'
+// import { AppContext } from '../context/AppContext'
 import { useSurvey } from '../hooks/useSurvey'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -43,7 +43,7 @@ const SurveyIntro = () => {
     <form className='container flex flex-col items-center gap-6 mt-10' onSubmit={handlePressEnter} onKeyDown={(e: any) => { console.info(e, '<<<< eksksksk') }}>
         <div className='text-black font-semiBold text-[30px]'>{surveyStore?.configSurveySelected?.szTerritoryId}</div>
         <div className='text-black font-semiBold text-[25px]'>{surveyStore?.configSurveySelected?.szDescQuestion}</div>
-        <div className='text-black font-regular text-[20px]' dangerouslySetInnerHTML={{__html: surveyStore?.configSurveySelected?.config.szInstruction}}></div>
+        <div className='text-black font-regular text-[20px]' dangerouslySetInnerHTML={{__html: surveyStore?.configSurveySelected?.config.szInstruction ?? '<p>instruction</p>'}}></div>
         <div className='flex gap-3 items-center'>
             <button autoFocus type='submit' className='bg-blue-500 rounded-[10px] w-full font-semiBold px-4 py-3 min-w-[70px] text-white hover:bg-gray-300 hover:text-black'>Start</button>
             <div className='flex gap-1'>

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { LiaFilterSolid } from 'react-icons/lia';
 // import { Tabs } from './Tabs';

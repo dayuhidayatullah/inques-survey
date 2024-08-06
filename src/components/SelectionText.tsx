@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import  { useEffect, useMemo, useState } from "react";
 import { RiCheckLine } from "react-icons/ri";
 import { useSurvey } from "../hooks/useSurvey";
-import { QuestionProps } from "../types/surveys";
+// import { QuestionProps } from "../types/surveys";
 
 interface OptionProps {
   bImageOption: number
@@ -36,7 +36,7 @@ const SelectionText = ({options}: {options?: OptionProps[]
   //   }
   //   // console.info(surveyStore.activeStep, '<<<< apa dia coba')
   // }, [surveyStore.questionList, surveyStore.activeStep])
-  const handleOptionClick = (el: OptionProps, i: number) => {
+  const handleOptionClick = (el: OptionProps) => {
     // console.info(el.id, document.getElementById(`itemLikert${i}`)?.classList, '<<< apa dia')
     // const tempAnswerList = {...answerList}
     // if(tempAnswerList[surveyStore?.activeStep]){
@@ -94,7 +94,7 @@ const SelectionText = ({options}: {options?: OptionProps[]
             className={`border-[2px] min-[785px]:w-[calc(33.3333% - 5.33333px)] ${
               selectQuestion === el.id ? "border-indigo-500" : "border-gray-500"
             } flex items-center justify-between gap-2 rounded-xl p-2 cursor-pointer `}
-            onClick={() => handleOptionClick(el, i)}
+            onClick={() => handleOptionClick(el, )}
           >
             <div className="flex gap-2 items-center">
               <p
